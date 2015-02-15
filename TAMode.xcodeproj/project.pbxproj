@@ -1,0 +1,257 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		72361BC31A90F4DB000CA293 /* TAMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BC21A90F4DB000CA293 /* TAMode.h */; };
+		72361BC51A90F4DB000CA293 /* TAModePriv.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BC41A90F4DB000CA293 /* TAModePriv.h */; };
+		72361BC71A90F4DB000CA293 /* TAMode.cp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BC61A90F4DB000CA293 /* TAMode.cp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		72361BBF1A90F4DB000CA293 /* libTAMode.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libTAMode.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		72361BC21A90F4DB000CA293 /* TAMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAMode.h; sourceTree = "<group>"; };
+		72361BC41A90F4DB000CA293 /* TAModePriv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAModePriv.h; sourceTree = "<group>"; };
+		72361BC61A90F4DB000CA293 /* TAMode.cp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TAMode.cp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		72361BBC1A90F4DB000CA293 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		72361BB61A90F4DB000CA293 = {
+			isa = PBXGroup;
+			children = (
+				72361BC11A90F4DB000CA293 /* TAMode */,
+				72361BC01A90F4DB000CA293 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		72361BC01A90F4DB000CA293 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				72361BBF1A90F4DB000CA293 /* libTAMode.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		72361BC11A90F4DB000CA293 /* TAMode */ = {
+			isa = PBXGroup;
+			children = (
+				72361BC21A90F4DB000CA293 /* TAMode.h */,
+				72361BC41A90F4DB000CA293 /* TAModePriv.h */,
+				72361BC61A90F4DB000CA293 /* TAMode.cp */,
+			);
+			path = TAMode;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		72361BBD1A90F4DB000CA293 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				72361BC31A90F4DB000CA293 /* TAMode.h in Headers */,
+				72361BC51A90F4DB000CA293 /* TAModePriv.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		72361BBE1A90F4DB000CA293 /* TAMode */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 72361BCA1A90F4DB000CA293 /* Build configuration list for PBXNativeTarget "TAMode" */;
+			buildPhases = (
+				72361BBB1A90F4DB000CA293 /* Sources */,
+				72361BBC1A90F4DB000CA293 /* Frameworks */,
+				72361BBD1A90F4DB000CA293 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TAMode;
+			productName = TAMode;
+			productReference = 72361BBF1A90F4DB000CA293 /* libTAMode.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		72361BB71A90F4DB000CA293 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Aaron Meyer";
+				TargetAttributes = {
+					72361BBE1A90F4DB000CA293 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 72361BBA1A90F4DB000CA293 /* Build configuration list for PBXProject "TAMode" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 72361BB61A90F4DB000CA293;
+			productRefGroup = 72361BC01A90F4DB000CA293 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				72361BBE1A90F4DB000CA293 /* TAMode */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		72361BBB1A90F4DB000CA293 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				72361BC71A90F4DB000CA293 /* TAMode.cp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		72361BC81A90F4DB000CA293 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		72361BC91A90F4DB000CA293 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		72361BCB1A90F4DB000CA293 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		72361BCC1A90F4DB000CA293 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		72361BBA1A90F4DB000CA293 /* Build configuration list for PBXProject "TAMode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72361BC81A90F4DB000CA293 /* Debug */,
+				72361BC91A90F4DB000CA293 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		72361BCA1A90F4DB000CA293 /* Build configuration list for PBXNativeTarget "TAMode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72361BCB1A90F4DB000CA293 /* Debug */,
+				72361BCC1A90F4DB000CA293 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 72361BB71A90F4DB000CA293 /* Project object */;
+}
