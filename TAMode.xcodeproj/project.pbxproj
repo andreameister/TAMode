@@ -7,16 +7,64 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72329B291A9405E40083EA8F /* TAModeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 72329B281A9405E40083EA8F /* TAModeTest.m */; };
 		72361BC31A90F4DB000CA293 /* TAMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BC21A90F4DB000CA293 /* TAMode.h */; };
-		72361BC51A90F4DB000CA293 /* TAModePriv.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BC41A90F4DB000CA293 /* TAModePriv.h */; };
 		72361BC71A90F4DB000CA293 /* TAMode.cp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BC61A90F4DB000CA293 /* TAMode.cp */; };
+		72361BD61A90F541000CA293 /* cvode_dense.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BCD1A90F541000CA293 /* cvode_dense.c */; };
+		72361BD71A90F541000CA293 /* cvode_dense.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BCE1A90F541000CA293 /* cvode_dense.h */; };
+		72361BD81A90F541000CA293 /* cvode_direct_impl.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BCF1A90F541000CA293 /* cvode_direct_impl.h */; };
+		72361BD91A90F541000CA293 /* cvode_direct.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BD01A90F541000CA293 /* cvode_direct.c */; };
+		72361BDA1A90F541000CA293 /* cvode_direct.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BD11A90F541000CA293 /* cvode_direct.h */; };
+		72361BDB1A90F541000CA293 /* cvode_impl.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BD21A90F541000CA293 /* cvode_impl.h */; };
+		72361BDC1A90F541000CA293 /* cvode_io.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BD31A90F541000CA293 /* cvode_io.c */; };
+		72361BDD1A90F541000CA293 /* cvode.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BD41A90F541000CA293 /* cvode.c */; };
+		72361BDE1A90F541000CA293 /* cvode.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BD51A90F541000CA293 /* cvode.h */; };
+		72361BE81A90F552000CA293 /* nvector_serial.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BDF1A90F552000CA293 /* nvector_serial.c */; };
+		72361BE91A90F552000CA293 /* nvector_serial.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BE01A90F552000CA293 /* nvector_serial.h */; };
+		72361BEA1A90F552000CA293 /* sundials_dense.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BE11A90F552000CA293 /* sundials_dense.c */; };
+		72361BEB1A90F552000CA293 /* sundials_dense.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BE21A90F552000CA293 /* sundials_dense.h */; };
+		72361BEC1A90F552000CA293 /* sundials_direct.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BE31A90F552000CA293 /* sundials_direct.c */; };
+		72361BED1A90F552000CA293 /* sundials_direct.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BE41A90F552000CA293 /* sundials_direct.h */; };
+		72361BEE1A90F552000CA293 /* sundials_nvector.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BE51A90F552000CA293 /* sundials_nvector.c */; };
+		72361BEF1A90F552000CA293 /* sundials_nvector.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BE61A90F552000CA293 /* sundials_nvector.h */; };
+		72361BF01A90F552000CA293 /* sundials_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BE71A90F552000CA293 /* sundials_types.h */; };
+		72361BFB1A90F56D000CA293 /* cobyla.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BF31A90F56D000CA293 /* cobyla.c */; };
+		72361BFC1A90F56D000CA293 /* cobyla.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BF41A90F56D000CA293 /* cobyla.h */; };
+		72361BFD1A90F56D000CA293 /* CVodeHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BF51A90F56D000CA293 /* CVodeHelpers.cpp */; };
+		72361BFE1A90F56D000CA293 /* CVodeHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BF61A90F56D000CA293 /* CVodeHelpers.h */; };
+		72361BFF1A90F56D000CA293 /* ModelRunning.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BF71A90F56D000CA293 /* ModelRunning.cpp */; };
+		72361C001A90F56D000CA293 /* ModelRunning.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BF81A90F56D000CA293 /* ModelRunning.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		72329B281A9405E40083EA8F /* TAModeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAModeTest.m; sourceTree = "<group>"; };
 		72361BBF1A90F4DB000CA293 /* libTAMode.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libTAMode.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		72361BC21A90F4DB000CA293 /* TAMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAMode.h; sourceTree = "<group>"; };
-		72361BC41A90F4DB000CA293 /* TAModePriv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAModePriv.h; sourceTree = "<group>"; };
 		72361BC61A90F4DB000CA293 /* TAMode.cp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TAMode.cp; sourceTree = "<group>"; };
+		72361BCD1A90F541000CA293 /* cvode_dense.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cvode_dense.c; sourceTree = "<group>"; };
+		72361BCE1A90F541000CA293 /* cvode_dense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvode_dense.h; sourceTree = "<group>"; };
+		72361BCF1A90F541000CA293 /* cvode_direct_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvode_direct_impl.h; sourceTree = "<group>"; };
+		72361BD01A90F541000CA293 /* cvode_direct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cvode_direct.c; sourceTree = "<group>"; };
+		72361BD11A90F541000CA293 /* cvode_direct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvode_direct.h; sourceTree = "<group>"; };
+		72361BD21A90F541000CA293 /* cvode_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvode_impl.h; sourceTree = "<group>"; };
+		72361BD31A90F541000CA293 /* cvode_io.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cvode_io.c; sourceTree = "<group>"; };
+		72361BD41A90F541000CA293 /* cvode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cvode.c; sourceTree = "<group>"; };
+		72361BD51A90F541000CA293 /* cvode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvode.h; sourceTree = "<group>"; };
+		72361BDF1A90F552000CA293 /* nvector_serial.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nvector_serial.c; sourceTree = "<group>"; };
+		72361BE01A90F552000CA293 /* nvector_serial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvector_serial.h; sourceTree = "<group>"; };
+		72361BE11A90F552000CA293 /* sundials_dense.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sundials_dense.c; sourceTree = "<group>"; };
+		72361BE21A90F552000CA293 /* sundials_dense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sundials_dense.h; sourceTree = "<group>"; };
+		72361BE31A90F552000CA293 /* sundials_direct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sundials_direct.c; sourceTree = "<group>"; };
+		72361BE41A90F552000CA293 /* sundials_direct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sundials_direct.h; sourceTree = "<group>"; };
+		72361BE51A90F552000CA293 /* sundials_nvector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sundials_nvector.c; sourceTree = "<group>"; };
+		72361BE61A90F552000CA293 /* sundials_nvector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sundials_nvector.h; sourceTree = "<group>"; };
+		72361BE71A90F552000CA293 /* sundials_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sundials_types.h; sourceTree = "<group>"; };
+		72361BF31A90F56D000CA293 /* cobyla.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cobyla.c; sourceTree = "<group>"; };
+		72361BF41A90F56D000CA293 /* cobyla.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cobyla.h; sourceTree = "<group>"; };
+		72361BF51A90F56D000CA293 /* CVodeHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVodeHelpers.cpp; sourceTree = "<group>"; };
+		72361BF61A90F56D000CA293 /* CVodeHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVodeHelpers.h; sourceTree = "<group>"; };
+		72361BF71A90F56D000CA293 /* ModelRunning.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelRunning.cpp; sourceTree = "<group>"; };
+		72361BF81A90F56D000CA293 /* ModelRunning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelRunning.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,11 +97,43 @@
 		72361BC11A90F4DB000CA293 /* TAMode */ = {
 			isa = PBXGroup;
 			children = (
+				72361C011A90F578000CA293 /* Libs */,
+				72361BF71A90F56D000CA293 /* ModelRunning.cpp */,
+				72329B281A9405E40083EA8F /* TAModeTest.m */,
+				72361BF81A90F56D000CA293 /* ModelRunning.h */,
 				72361BC21A90F4DB000CA293 /* TAMode.h */,
-				72361BC41A90F4DB000CA293 /* TAModePriv.h */,
 				72361BC61A90F4DB000CA293 /* TAMode.cp */,
 			);
 			path = TAMode;
+			sourceTree = "<group>";
+		};
+		72361C011A90F578000CA293 /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				72361BF51A90F56D000CA293 /* CVodeHelpers.cpp */,
+				72361BF61A90F56D000CA293 /* CVodeHelpers.h */,
+				72361BDF1A90F552000CA293 /* nvector_serial.c */,
+				72361BE01A90F552000CA293 /* nvector_serial.h */,
+				72361BCD1A90F541000CA293 /* cvode_dense.c */,
+				72361BCE1A90F541000CA293 /* cvode_dense.h */,
+				72361BCF1A90F541000CA293 /* cvode_direct_impl.h */,
+				72361BD01A90F541000CA293 /* cvode_direct.c */,
+				72361BD11A90F541000CA293 /* cvode_direct.h */,
+				72361BD21A90F541000CA293 /* cvode_impl.h */,
+				72361BD31A90F541000CA293 /* cvode_io.c */,
+				72361BD41A90F541000CA293 /* cvode.c */,
+				72361BD51A90F541000CA293 /* cvode.h */,
+				72361BE11A90F552000CA293 /* sundials_dense.c */,
+				72361BE21A90F552000CA293 /* sundials_dense.h */,
+				72361BE31A90F552000CA293 /* sundials_direct.c */,
+				72361BE41A90F552000CA293 /* sundials_direct.h */,
+				72361BE51A90F552000CA293 /* sundials_nvector.c */,
+				72361BE61A90F552000CA293 /* sundials_nvector.h */,
+				72361BE71A90F552000CA293 /* sundials_types.h */,
+				72361BF31A90F56D000CA293 /* cobyla.c */,
+				72361BF41A90F56D000CA293 /* cobyla.h */,
+			);
+			name = Libs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -63,8 +143,20 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72361BFC1A90F56D000CA293 /* cobyla.h in Headers */,
+				72361BED1A90F552000CA293 /* sundials_direct.h in Headers */,
+				72361BFE1A90F56D000CA293 /* CVodeHelpers.h in Headers */,
+				72361BDE1A90F541000CA293 /* cvode.h in Headers */,
+				72361BD81A90F541000CA293 /* cvode_direct_impl.h in Headers */,
+				72361BD71A90F541000CA293 /* cvode_dense.h in Headers */,
 				72361BC31A90F4DB000CA293 /* TAMode.h in Headers */,
-				72361BC51A90F4DB000CA293 /* TAModePriv.h in Headers */,
+				72361BEF1A90F552000CA293 /* sundials_nvector.h in Headers */,
+				72361BDA1A90F541000CA293 /* cvode_direct.h in Headers */,
+				72361BDB1A90F541000CA293 /* cvode_impl.h in Headers */,
+				72361BE91A90F552000CA293 /* nvector_serial.h in Headers */,
+				72361BF01A90F552000CA293 /* sundials_types.h in Headers */,
+				72361BEB1A90F552000CA293 /* sundials_dense.h in Headers */,
+				72361C001A90F56D000CA293 /* ModelRunning.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +216,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72361BD91A90F541000CA293 /* cvode_direct.c in Sources */,
+				72361BFD1A90F56D000CA293 /* CVodeHelpers.cpp in Sources */,
 				72361BC71A90F4DB000CA293 /* TAMode.cp in Sources */,
+				72361BEE1A90F552000CA293 /* sundials_nvector.c in Sources */,
+				72361BDD1A90F541000CA293 /* cvode.c in Sources */,
+				72329B291A9405E40083EA8F /* TAModeTest.m in Sources */,
+				72361BFB1A90F56D000CA293 /* cobyla.c in Sources */,
+				72361BFF1A90F56D000CA293 /* ModelRunning.cpp in Sources */,
+				72361BE81A90F552000CA293 /* nvector_serial.c in Sources */,
+				72361BD61A90F541000CA293 /* cvode_dense.c in Sources */,
+				72361BDC1A90F541000CA293 /* cvode_io.c in Sources */,
+				72361BEA1A90F552000CA293 /* sundials_dense.c in Sources */,
+				72361BEC1A90F552000CA293 /* sundials_direct.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +254,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -192,6 +297,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -250,6 +356,7 @@
 				72361BCC1A90F4DB000CA293 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

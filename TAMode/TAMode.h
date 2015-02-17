@@ -12,12 +12,10 @@
 
 /* The classes below are exported */
 #pragma GCC visibility push(default)
-
-class TAMode
-{
-	public:
-		void HelloWorld(const char *);
-};
+double pyEntry(double *pIn);
+int calcProfileMatlab(double *, double *, double *, int, double, int);
+void pyEntryVec(double *pIn, double *pOut, int n);
+double pyEntryNew(double *);
 
 #pragma GCC visibility pop
 #endif
