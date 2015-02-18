@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		72329B291A9405E40083EA8F /* TAModeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 72329B281A9405E40083EA8F /* TAModeTest.m */; };
+		72329B4D1A940FA30083EA8F /* TAModeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 72329B4C1A940FA30083EA8F /* TAModeTest.m */; };
 		72361BC31A90F4DB000CA293 /* TAMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BC21A90F4DB000CA293 /* TAMode.h */; };
-		72361BC71A90F4DB000CA293 /* TAMode.cp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BC61A90F4DB000CA293 /* TAMode.cp */; };
+		72361BC71A90F4DB000CA293 /* TAMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BC61A90F4DB000CA293 /* TAMode.cpp */; };
 		72361BD61A90F541000CA293 /* cvode_dense.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BCD1A90F541000CA293 /* cvode_dense.c */; };
 		72361BD71A90F541000CA293 /* cvode_dense.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BCE1A90F541000CA293 /* cvode_dense.h */; };
 		72361BD81A90F541000CA293 /* cvode_direct_impl.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BCF1A90F541000CA293 /* cvode_direct_impl.h */; };
@@ -32,15 +32,36 @@
 		72361BFC1A90F56D000CA293 /* cobyla.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BF41A90F56D000CA293 /* cobyla.h */; };
 		72361BFD1A90F56D000CA293 /* CVodeHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BF51A90F56D000CA293 /* CVodeHelpers.cpp */; };
 		72361BFE1A90F56D000CA293 /* CVodeHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BF61A90F56D000CA293 /* CVodeHelpers.h */; };
-		72361BFF1A90F56D000CA293 /* ModelRunning.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BF71A90F56D000CA293 /* ModelRunning.cpp */; };
-		72361C001A90F56D000CA293 /* ModelRunning.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BF81A90F56D000CA293 /* ModelRunning.h */; };
+		72F6CDE01A943685001DAA80 /* CVodeHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BF51A90F56D000CA293 /* CVodeHelpers.cpp */; };
+		72F6CDE11A943685001DAA80 /* nvector_serial.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BDF1A90F552000CA293 /* nvector_serial.c */; };
+		72F6CDE21A943685001DAA80 /* cvode_dense.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BCD1A90F541000CA293 /* cvode_dense.c */; };
+		72F6CDE31A943685001DAA80 /* cvode_direct.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BD01A90F541000CA293 /* cvode_direct.c */; };
+		72F6CDE41A943685001DAA80 /* cvode_io.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BD31A90F541000CA293 /* cvode_io.c */; };
+		72F6CDE51A943685001DAA80 /* cvode.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BD41A90F541000CA293 /* cvode.c */; };
+		72F6CDE61A943692001DAA80 /* sundials_dense.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BE11A90F552000CA293 /* sundials_dense.c */; };
+		72F6CDE71A943692001DAA80 /* sundials_direct.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BE31A90F552000CA293 /* sundials_direct.c */; };
+		72F6CDE81A943692001DAA80 /* sundials_nvector.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BE51A90F552000CA293 /* sundials_nvector.c */; };
+		72F6CDE91A943692001DAA80 /* cobyla.c in Sources */ = {isa = PBXBuildFile; fileRef = 72361BF31A90F56D000CA293 /* cobyla.c */; };
+		72F6CDEA1A943692001DAA80 /* TAMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BC61A90F4DB000CA293 /* TAMode.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		72F6CDC61A942DD5001DAA80 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 72361BB71A90F4DB000CA293 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 72361BBE1A90F4DB000CA293;
+			remoteInfo = TAMode;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		72329B281A9405E40083EA8F /* TAModeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAModeTest.m; sourceTree = "<group>"; };
+		72329B481A940FA30083EA8F /* TAModeTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TAModeTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		72329B4B1A940FA30083EA8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		72329B4C1A940FA30083EA8F /* TAModeTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TAModeTest.m; sourceTree = "<group>"; };
 		72361BBF1A90F4DB000CA293 /* libTAMode.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libTAMode.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		72361BC21A90F4DB000CA293 /* TAMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAMode.h; sourceTree = "<group>"; };
-		72361BC61A90F4DB000CA293 /* TAMode.cp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TAMode.cp; sourceTree = "<group>"; };
+		72361BC61A90F4DB000CA293 /* TAMode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TAMode.cpp; sourceTree = "<group>"; };
 		72361BCD1A90F541000CA293 /* cvode_dense.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cvode_dense.c; sourceTree = "<group>"; };
 		72361BCE1A90F541000CA293 /* cvode_dense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvode_dense.h; sourceTree = "<group>"; };
 		72361BCF1A90F541000CA293 /* cvode_direct_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvode_direct_impl.h; sourceTree = "<group>"; };
@@ -63,11 +84,16 @@
 		72361BF41A90F56D000CA293 /* cobyla.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cobyla.h; sourceTree = "<group>"; };
 		72361BF51A90F56D000CA293 /* CVodeHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVodeHelpers.cpp; sourceTree = "<group>"; };
 		72361BF61A90F56D000CA293 /* CVodeHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVodeHelpers.h; sourceTree = "<group>"; };
-		72361BF71A90F56D000CA293 /* ModelRunning.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelRunning.cpp; sourceTree = "<group>"; };
-		72361BF81A90F56D000CA293 /* ModelRunning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelRunning.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		72329B451A940FA30083EA8F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		72361BBC1A90F4DB000CA293 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -78,10 +104,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		72329B491A940FA30083EA8F /* TAModeTest */ = {
+			isa = PBXGroup;
+			children = (
+				72329B4C1A940FA30083EA8F /* TAModeTest.m */,
+				72329B4A1A940FA30083EA8F /* Supporting Files */,
+			);
+			path = TAModeTest;
+			sourceTree = "<group>";
+		};
+		72329B4A1A940FA30083EA8F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				72329B4B1A940FA30083EA8F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		72361BB61A90F4DB000CA293 = {
 			isa = PBXGroup;
 			children = (
 				72361BC11A90F4DB000CA293 /* TAMode */,
+				72329B491A940FA30083EA8F /* TAModeTest */,
 				72361BC01A90F4DB000CA293 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				72361BBF1A90F4DB000CA293 /* libTAMode.dylib */,
+				72329B481A940FA30083EA8F /* TAModeTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -98,11 +143,8 @@
 			isa = PBXGroup;
 			children = (
 				72361C011A90F578000CA293 /* Libs */,
-				72361BF71A90F56D000CA293 /* ModelRunning.cpp */,
-				72329B281A9405E40083EA8F /* TAModeTest.m */,
-				72361BF81A90F56D000CA293 /* ModelRunning.h */,
 				72361BC21A90F4DB000CA293 /* TAMode.h */,
-				72361BC61A90F4DB000CA293 /* TAMode.cp */,
+				72361BC61A90F4DB000CA293 /* TAMode.cpp */,
 			);
 			path = TAMode;
 			sourceTree = "<group>";
@@ -156,13 +198,30 @@
 				72361BE91A90F552000CA293 /* nvector_serial.h in Headers */,
 				72361BF01A90F552000CA293 /* sundials_types.h in Headers */,
 				72361BEB1A90F552000CA293 /* sundials_dense.h in Headers */,
-				72361C001A90F56D000CA293 /* ModelRunning.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		72329B471A940FA30083EA8F /* TAModeTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 72329B4E1A940FA30083EA8F /* Build configuration list for PBXNativeTarget "TAModeTest" */;
+			buildPhases = (
+				72329B441A940FA30083EA8F /* Sources */,
+				72329B451A940FA30083EA8F /* Frameworks */,
+				72329B461A940FA30083EA8F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				72F6CDC71A942DD5001DAA80 /* PBXTargetDependency */,
+			);
+			name = TAModeTest;
+			productName = TAModeTest;
+			productReference = 72329B481A940FA30083EA8F /* TAModeTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		72361BBE1A90F4DB000CA293 /* TAMode */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 72361BCA1A90F4DB000CA293 /* Build configuration list for PBXNativeTarget "TAMode" */;
@@ -189,6 +248,9 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Aaron Meyer";
 				TargetAttributes = {
+					72329B471A940FA30083EA8F = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
 					72361BBE1A90F4DB000CA293 = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
@@ -207,23 +269,51 @@
 			projectRoot = "";
 			targets = (
 				72361BBE1A90F4DB000CA293 /* TAMode */,
+				72329B471A940FA30083EA8F /* TAModeTest */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		72329B461A940FA30083EA8F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		72329B441A940FA30083EA8F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				72F6CDE61A943692001DAA80 /* sundials_dense.c in Sources */,
+				72F6CDE71A943692001DAA80 /* sundials_direct.c in Sources */,
+				72F6CDE81A943692001DAA80 /* sundials_nvector.c in Sources */,
+				72F6CDE91A943692001DAA80 /* cobyla.c in Sources */,
+				72F6CDEA1A943692001DAA80 /* TAMode.cpp in Sources */,
+				72F6CDE01A943685001DAA80 /* CVodeHelpers.cpp in Sources */,
+				72F6CDE11A943685001DAA80 /* nvector_serial.c in Sources */,
+				72F6CDE21A943685001DAA80 /* cvode_dense.c in Sources */,
+				72F6CDE31A943685001DAA80 /* cvode_direct.c in Sources */,
+				72F6CDE41A943685001DAA80 /* cvode_io.c in Sources */,
+				72F6CDE51A943685001DAA80 /* cvode.c in Sources */,
+				72329B4D1A940FA30083EA8F /* TAModeTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		72361BBB1A90F4DB000CA293 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				72361BD91A90F541000CA293 /* cvode_direct.c in Sources */,
 				72361BFD1A90F56D000CA293 /* CVodeHelpers.cpp in Sources */,
-				72361BC71A90F4DB000CA293 /* TAMode.cp in Sources */,
+				72361BC71A90F4DB000CA293 /* TAMode.cpp in Sources */,
 				72361BEE1A90F552000CA293 /* sundials_nvector.c in Sources */,
 				72361BDD1A90F541000CA293 /* cvode.c in Sources */,
-				72329B291A9405E40083EA8F /* TAModeTest.m in Sources */,
 				72361BFB1A90F56D000CA293 /* cobyla.c in Sources */,
-				72361BFF1A90F56D000CA293 /* ModelRunning.cpp in Sources */,
 				72361BE81A90F552000CA293 /* nvector_serial.c in Sources */,
 				72361BD61A90F541000CA293 /* cvode_dense.c in Sources */,
 				72361BDC1A90F541000CA293 /* cvode_io.c in Sources */,
@@ -234,7 +324,47 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		72F6CDC71A942DD5001DAA80 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 72361BBE1A90F4DB000CA293 /* TAMode */;
+			targetProxy = 72F6CDC61A942DD5001DAA80 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		72329B4F1A940FA30083EA8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = TAModeTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		72329B501A940FA30083EA8F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = TAModeTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		72361BC81A90F4DB000CA293 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -267,8 +397,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -303,8 +434,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
@@ -340,6 +472,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		72329B4E1A940FA30083EA8F /* Build configuration list for PBXNativeTarget "TAModeTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72329B4F1A940FA30083EA8F /* Debug */,
+				72329B501A940FA30083EA8F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		72361BBA1A90F4DB000CA293 /* Build configuration list for PBXProject "TAMode" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

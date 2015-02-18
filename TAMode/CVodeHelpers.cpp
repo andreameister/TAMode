@@ -17,7 +17,6 @@
 
 #include "cobyla.h"
 #include "CVodeHelpers.h"
-#include "ModelRunning.h"
 #include "sundials_dense.h"
 
 #define IJth(A,i,j) DENSE_ELEM(A,i-1,j-1)

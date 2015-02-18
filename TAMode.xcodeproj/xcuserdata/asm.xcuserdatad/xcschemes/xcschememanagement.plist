@@ -9,9 +9,24 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>TAModeTest.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>72329B311A940CAF0083EA8F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>72329B471A940FA30083EA8F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>72361BBE1A90F4DB000CA293</key>
 		<dict>
 			<key>primary</key>

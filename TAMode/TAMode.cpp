@@ -1,3 +1,41 @@
+#include <iostream>
+#include <sstream>
+#include "TAMode.h"
+#include "CVodeHelpers.h"
+
+
+using namespace std;
+
+//double pyEntry(double *pIn) {
+//    return calcError(Param(pIn));
+//}
+//
+//void pyEntryVec(double *pIn, double *pOut, int n) {
+//    for (int ii = 0; ii < n; ii++) {
+//        if (pIn[ii*11 + 0] < pIn[ii*11 + 2]) {
+//            pOut[ii] = 1E6;
+//            continue;
+//        }
+//        
+//        pOut[ii] = calcError(Param(&pIn[ii*11]));
+//    }
+//}
+//
+//int calcProfileMatlab(double *dataPtr, double *params, double *tps, int nTps, double GasStim, int frac) {
+//    struct rates pInS = Param(params);
+//    
+//    try {
+//        calcProfileSet (dataPtr, tps, &pInS, nTps, GasStim, frac);
+//    } catch (std::exception &e) {
+//        errorLogger(&e);
+//        return 1;
+//    }
+//    
+//    return 0;
+//}
+
+
+
 //
 //  ModelRunning.cpp
 //  UniformOptimization
@@ -16,7 +54,6 @@
 #include <exception>
 #include <cmath>
 #include "cvode_impl.h"
-#include "ModelRunning.h"
 #include "CVodeHelpers.h"
 
 #define NVp N_VGetArrayPointer_Serial
@@ -25,14 +62,14 @@
 
 using namespace std;
 
-static const double fgMgConv = 135.2;
+//const double fgMgConv = 135.2;
 
-static void trafFunc(double *dextR, double *dintR, double intRate, struct rates *tr, double extR, double intR) {
+void trafFunc(double *dextR, double *dintR, double intRate, struct rates *tr, double extR, double intR) {
     *dextR += -extR*intRate + tr->kRec*(1-tr->fElse)*intR*tr->internalFrac; // Endocytosis, recycling
     *dintR += extR*intRate/tr->internalFrac - tr->kRec*(1-tr->fElse)*intR - tr->kDeg*tr->fElse*intR; // Endocytosis, recycling, degradation
 }
 
-static void heteroTAM (double *Rone, double *Rtwo, double *dRone, double *dRtwo, hetRates *hetR, double *hetDim, double *dhetDim, struct rates *tr) {
+void heteroTAM (double *Rone, double *Rtwo, double *dRone, double *dRtwo, hetRates *hetR, double *hetDim, double *dhetDim, struct rates *tr) {
     const double dR7 = hetR->xFwd7*Rone[2]*Rtwo[2] - hetR->xRev7*hetDim[2];
     const double dR8 = hetR->xFwd8*Rone[0]*Rtwo[3] - hetR->xRev8*hetDim[2];
     const double dR9 = hetR->xFwd9*Rone[1]*Rtwo[1] - hetR->xRev9*hetDim[2];
@@ -85,7 +122,7 @@ static void heteroTAM (double *Rone, double *Rtwo, double *dRone, double *dRtwo,
 
 
 
-static void TAM_react(double *R, double *Li, double *dR, double *dLi, struct TAMrates *r, struct rates *tr) {
+void TAM_react(double *R, double *Li, double *dR, double *dLi, struct TAMrates *r, struct rates *tr) {
     const double dR1 = r->Binding1 * R[0] * tr->gasCur - r->Unbinding1 * R[1];
     const double dR2 = r->Binding2 * R[0] * tr->gasCur - r->Unbinding2 * R[2];
     const double dR3 = r->Binding2 * R[1] * tr->gasCur - r->Unbinding2 * R[3];
@@ -224,10 +261,10 @@ struct rates Param(double *params) {
     }
     
     for (size_t ii = 0; ii < 3; ii++) {
-        const double KD11 = out.TAMs[out.hetRi[ii][0]].Unbinding1 / out.TAMs[out.hetRi[ii][0]].Binding1;
-        const double KD12 = out.TAMs[out.hetRi[ii][1]].Unbinding1 / out.TAMs[out.hetRi[ii][1]].Binding1;
-        const double KD21 = out.TAMs[out.hetRi[ii][0]].Unbinding2 / out.TAMs[out.hetRi[ii][0]].Binding2;
-        const double KD22 = out.TAMs[out.hetRi[ii][1]].Unbinding2 / out.TAMs[out.hetRi[ii][1]].Binding2;
+        const double KD11 = out.TAMs[hetRi[ii][0]].Unbinding1 / out.TAMs[hetRi[ii][0]].Binding1;
+        const double KD12 = out.TAMs[hetRi[ii][1]].Unbinding1 / out.TAMs[hetRi[ii][1]].Binding1;
+        const double KD21 = out.TAMs[hetRi[ii][0]].Unbinding2 / out.TAMs[hetRi[ii][0]].Binding2;
+        const double KD22 = out.TAMs[hetRi[ii][1]].Unbinding2 / out.TAMs[hetRi[ii][1]].Binding2;
         
         
         out.hetR[ii].xFwd7 = xFwd;
@@ -244,10 +281,10 @@ struct rates Param(double *params) {
         out.hetR[ii].xRev10 = out.hetR[ii].xRev7*out.hetR[ii].xFwd10*KD22/KD11/out.hetR[ii].xFwd7;
         
         // TODO: Detailed balance for these. At the moment assuming unbinding of ligand is equivalent
-        out.hetR[ii].xRev11 = out.TAMs[out.hetRi[ii][1]].Unbinding1;
-        out.hetR[ii].xRev12 = out.TAMs[out.hetRi[ii][0]].Unbinding2;
-        out.hetR[ii].xRev13 = out.TAMs[out.hetRi[ii][1]].Unbinding2;
-        out.hetR[ii].xRev14 = out.TAMs[out.hetRi[ii][0]].Unbinding1;
+        out.hetR[ii].xRev11 = out.TAMs[hetRi[ii][1]].Unbinding1;
+        out.hetR[ii].xRev12 = out.TAMs[hetRi[ii][0]].Unbinding2;
+        out.hetR[ii].xRev13 = out.TAMs[hetRi[ii][1]].Unbinding2;
+        out.hetR[ii].xRev14 = out.TAMs[hetRi[ii][0]].Unbinding1;
         
         // still need ligand binding to the one ligand dimer
     }
@@ -258,7 +295,37 @@ struct rates Param(double *params) {
 
 
 
+// Calculate the initial state by waiting a long time with autocrine Gas
+void *initState( N_Vector init, struct rates *params) {
+    double t;
+    
+    for (int ii = 0; ii < Nspecies ; ii++) Ith(init,ii) = 0;
+    
+    params->gasCur = params->autocrine;
+    
+    void *cvode_mem = solver_setup (init, params, AXL_react);
+    if (cvode_mem == NULL) return NULL;
+    
+    int flag = CVode(cvode_mem, autocrineT, init, &t, CV_NORMAL);
+    if (flag < 0) {
+        CVodeFree(&cvode_mem);
+        return NULL;
+    }
+    
+    /* Free integrator memory */
+    return cvode_mem;
+}
+
+
+
+
+
 /// END REACTION CODE
+
+
+
+
+
 
 
 

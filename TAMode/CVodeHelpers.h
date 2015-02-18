@@ -14,7 +14,7 @@
 #include "cvode_direct.h"
 
 
-#define print_CV_err 0
+#define print_CV_err 1
 
 #define Ith(v,i)    NV_Ith_S(v,i)       /* Ith numbers components 1..NEQ */
 void* solver_setup (N_Vector, void *, double, double, CVRhsFn);

@@ -1,6 +1,6 @@
 //
 //  TAModeTest.m
-//  TAMode
+//  TAModeTest
 //
 //  Created by Aaron Meyer on 2/17/15.
 //  Copyright (c) 2015 Aaron Meyer. All rights reserved.
@@ -8,6 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 #import <XCTest/XCTest.h>
+
+#include <stdlib.h>
+#include <stdio.h>
+#include "TAMode.h"
+#include "sundials_nvector.h"
+#include "nvector_serial.h"
 
 @interface TAModeTest : XCTestCase
 
@@ -27,7 +33,33 @@
 
 - (void)testExample {
     // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+    
+    
+    double pp[50];
+    
+    for (int ii = 0; ii < 50; ii++) {
+        pp[ii] = 10;
+    }
+    
+    pp[3] = 1;
+    pp[1] = 0.1;
+    
+    void *cvode_mem = NULL;
+    struct rates params = Param(pp);
+    
+    N_Vector init = N_VNew_Serial(Nspecies);
+    N_Vector dinit = N_VNew_Serial(Nspecies);
+    
+    
+    
+    cvode_mem = initState(init, &params);
+    
+    int flag = AXL_react(0, init, dinit, &params);
+    
+    XCTAssert(flag == 0);
+    XCTAssert(cvode_mem != NULL);
+    
+    XCTAssertEqualWithAccuracy(Ith(dinit,4), 0, 0.0001);
 }
 
 - (void)testPerformanceExample {
