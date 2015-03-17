@@ -72,12 +72,14 @@ extern "C" {
  * directly accessing the data in the DlsMat A (i.e. the field cols)
  * -----------------------------------------------------------------
  */
+    
+#define SUNDIALS_EXPORT
 
 SUNDIALS_EXPORT long int DenseGETRF(DlsMat A, long int *p);
 SUNDIALS_EXPORT void DenseGETRS(DlsMat A, long int *p, double *b);
 
-SUNDIALS_EXPORT long int denseGETRF(double **a, size_t m, size_t n, long int *p);
-SUNDIALS_EXPORT void denseGETRS(double **a, long int n, long int *p, double *b);
+SUNDIALS_EXPORT long int denseGETRF(double **a, unsigned int m, unsigned int n, long int *p);
+SUNDIALS_EXPORT void denseGETRS(double **a, unsigned int n, long int *p, double *b);
 
 /*
  * -----------------------------------------------------------------
@@ -130,12 +132,9 @@ SUNDIALS_EXPORT void densePOTRS(double **a, long int m, double *b);
  */
 
 SUNDIALS_EXPORT int DenseGEQRF(DlsMat A, double *beta, double *wrk);
-SUNDIALS_EXPORT int DenseORMQR(DlsMat A, double *beta, double *vn, double *vm, 
-			       double *wrk);
+
 
 SUNDIALS_EXPORT int denseGEQRF(double **a, long int m, long int n, double *beta, double *v);
-SUNDIALS_EXPORT int denseORMQR(double **a, long int m, long int n, double *beta,
-			       double *v, double *w, double *wrk);
 
 /*
  * -----------------------------------------------------------------

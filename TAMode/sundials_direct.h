@@ -113,8 +113,8 @@ extern "C" {
 
 typedef struct _DlsMat {
   int type;
-  size_t M;
-  size_t N;
+  unsigned int M;
+  unsigned int N;
   long int ldim;
   long int mu;
   long int ml;
@@ -176,159 +176,24 @@ typedef struct _DlsMat {
 #define BAND_COL_ELEM(col_j,i,j) (col_j[(i)-(j)])
 #define BAND_ELEM(A,i,j) ((A->cols)[j][(i)-(j)+(A->s_mu)])
 
-/*
- * ==================================================================
- * Exported function prototypes (functions working on dlsMat)
- * ==================================================================
- */
+DlsMat NewDenseMat(unsigned int M, unsigned int N);
+DlsMat NewBandMat(long int N, long int mu, long int ml, long int smu);
+void DestroyMat(DlsMat A);
+int *NewIntArray(int N);
+long int *NewLintArray(long int N);
+double *NewRealArray(long int N);
+void DestroyArray(void *p);
+void AddIdentity(DlsMat A);
+void SetToZero(DlsMat A);
+void PrintMat(DlsMat A);
 
-#define SUNDIALS_EXPORT
-    
-/*
- * -----------------------------------------------------------------
- * Function: NewDenseMat
- * -----------------------------------------------------------------
- * NewDenseMat allocates memory for an M-by-N dense matrix and
- * returns the storage allocated (type DlsMat). NewDenseMat
- * returns NULL if the request for matrix storage cannot be
- * satisfied. See the above documentation for the type DlsMat
- * for matrix storage details.
- * -----------------------------------------------------------------
- */
-
-SUNDIALS_EXPORT DlsMat NewDenseMat(size_t M, size_t N);
-
-/*
- * -----------------------------------------------------------------
- * Function: NewBandMat
- * -----------------------------------------------------------------
- * NewBandMat allocates memory for an M-by-N band matrix 
- * with upper bandwidth mu, lower bandwidth ml, and storage upper
- * bandwidth smu. Pass smu as follows depending on whether A will 
- * be LU factored:
- *
- * (1) Pass smu = mu if A will not be factored.
- *
- * (2) Pass smu = MIN(N-1,mu+ml) if A will be factored.
- *
- * NewBandMat returns the storage allocated (type DlsMat) or
- * NULL if the request for matrix storage cannot be satisfied.
- * See the documentation for the type DlsMat for matrix storage
- * details.
- * -----------------------------------------------------------------
- */
-
-SUNDIALS_EXPORT DlsMat NewBandMat(long int N, long int mu, long int ml, long int smu);
-
-/*
- * -----------------------------------------------------------------
- * Functions: DestroyMat
- * -----------------------------------------------------------------
- * DestroyMat frees the memory allocated by NewDenseMat or NewBandMat
- * -----------------------------------------------------------------
- */
-
-SUNDIALS_EXPORT void DestroyMat(DlsMat A);
-
-/*
- * -----------------------------------------------------------------
- * Function: NewIntArray
- * -----------------------------------------------------------------
- * NewIntArray allocates memory an array of N int's and returns
- * the pointer to the memory it allocates. If the request for
- * memory storage cannot be satisfied, it returns NULL.
- * -----------------------------------------------------------------
- */
-
-SUNDIALS_EXPORT int *NewIntArray(int N);
-
-/*
- * -----------------------------------------------------------------
- * Function: NewLintArray
- * -----------------------------------------------------------------
- * NewLintArray allocates memory an array of N long int's and returns
- * the pointer to the memory it allocates. If the request for
- * memory storage cannot be satisfied, it returns NULL.
- * -----------------------------------------------------------------
- */
-
-SUNDIALS_EXPORT long int *NewLintArray(long int N);
-
-/*
- * -----------------------------------------------------------------
- * Function: NewRealArray
- * -----------------------------------------------------------------
- * NewRealArray allocates memory an array of N double and returns
- * the pointer to the memory it allocates. If the request for
- * memory storage cannot be satisfied, it returns NULL.
- * -----------------------------------------------------------------
- */
-
-SUNDIALS_EXPORT double *NewRealArray(long int N);
-
-/*
- * -----------------------------------------------------------------
- * Function: DestroyArray
- * -----------------------------------------------------------------
- * DestroyArray frees memory allocated by NewIntArray, NewLintArray,
- * or NewRealArray.
- * -----------------------------------------------------------------
- */
-
-SUNDIALS_EXPORT void DestroyArray(void *p);
-
-/*
- * -----------------------------------------------------------------
- * Function : AddIdentity
- * -----------------------------------------------------------------
- * AddIdentity adds 1.0 to the main diagonal (A_ii, i=1,2,...,N-1) of
- * the M-by-N matrix A (M>= N) and stores the result back in A.
- * AddIdentity is typically used with square matrices.
- * AddIdentity does not check for M >= N and therefore a segmentation
- * fault will occur if M < N!
- * -----------------------------------------------------------------
- */
-
-SUNDIALS_EXPORT void AddIdentity(DlsMat A);
-
-/*
- * -----------------------------------------------------------------
- * Function : SetToZero
- * -----------------------------------------------------------------
- * SetToZero sets all the elements of the M-by-N matrix A to 0.0.
- * -----------------------------------------------------------------
- */
-
-SUNDIALS_EXPORT void SetToZero(DlsMat A);
-
-/*
- * -----------------------------------------------------------------
- * Functions: PrintMat
- * -----------------------------------------------------------------
- * This function prints the M-by-N (dense or band) matrix A to
- * standard output as it would normally appear on paper.
- * It is intended as debugging tools with small values of M and N.
- * The elements are printed using the %g/%lg/%Lg option. 
- * A blank line is printed before and after the matrix.
- * -----------------------------------------------------------------
- */
-
-SUNDIALS_EXPORT void PrintMat(DlsMat A);
-
-
-/*
- * ==================================================================
- * Exported function prototypes (functions working on double**)
- * ==================================================================
- */
-
-SUNDIALS_EXPORT double **newDenseMat(size_t m, size_t n);
-SUNDIALS_EXPORT double **newBandMat(long int n, long int smu, long int ml);
-SUNDIALS_EXPORT void destroyMat(double **a);
-SUNDIALS_EXPORT int *newIntArray(int n);
-SUNDIALS_EXPORT long int *newLintArray(long int n);
-SUNDIALS_EXPORT double *newRealArray(long int m);
-SUNDIALS_EXPORT void destroyArray(void *v);
+double **newDenseMat(unsigned int m, unsigned int n);
+double **newBandMat(long int n, long int smu, long int ml);
+void destroyMat(double **a);
+int *newIntArray(int n);
+long int *newLintArray(long int n);
+double *newRealArray(long int m);
+void destroyArray(void *v);
 
 
 #ifdef __cplusplus

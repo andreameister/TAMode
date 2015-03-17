@@ -150,14 +150,14 @@ int CVDense(void *cvode_mem, long int N)
   /* Allocate memory for M, savedJ, and pivot array */
 
   M = NULL;
-  M = NewDenseMat((size_t) N, (size_t) N);
+  M = NewDenseMat((unsigned int) N, (unsigned int) N);
   if (M == NULL) {
     CVProcessError(cv_mem, CVDLS_MEM_FAIL, "CVDENSE", "CVDense", MSGD_MEM_FAIL);
     free(cvdls_mem); cvdls_mem = NULL;
     return(CVDLS_MEM_FAIL);
   }
   savedJ = NULL;
-  savedJ = NewDenseMat((size_t) N, (size_t) N);
+  savedJ = NewDenseMat((unsigned int) N, (unsigned int) N);
   if (savedJ == NULL) {
     CVProcessError(cv_mem, CVDLS_MEM_FAIL, "CVDENSE", "CVDense", MSGD_MEM_FAIL);
     DestroyMat(M);

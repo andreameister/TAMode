@@ -121,11 +121,8 @@ void solverReset (void *cvode_mem, N_Vector init) {
 }
 
 void* solver_setup (N_Vector init, void *params, CVRhsFn f) {
-    return solver_setup (init, params, 1E-3, 1E-6, f);
+    return solver_setup (init, params, 1E-4, 1E-6, f);
 }
-
-
-
 
 
 struct inData {
@@ -147,9 +144,6 @@ static double initialCondition (struct inData *dataS) {
     return fit / meas;
 }
 
-
-
-
 static double errorFunc (double fitt, double pYmeas, double errorMeas) {
     return pow((((double) fitt) - pYmeas) / errorMeas, 2) / 2;
 }
@@ -165,7 +159,7 @@ static double errorOpt(unsigned, const double *x, double *, void *data) {
 }
 
 
-static double errorFuncOpt (N_Vector fitt, const double *pYmeas, const double *errorMeas) {
+double errorFuncOpt (N_Vector fitt, const double *pYmeas, const double *errorMeas) {
     struct inData dataS;
     dataS.fitt = fitt;
     dataS.pYmeas = pYmeas;
@@ -199,7 +193,7 @@ static double errorFuncOpt (N_Vector fitt, const double *pYmeas, const double *e
 
 
 
-static double errorFuncFix (N_Vector fitt, const double *pYmeas, const double *errorMeas) {
+double errorFuncFix (N_Vector fitt, const double *pYmeas, const double *errorMeas) {
     double xx = 0;
     
     for (int ii = 0; ii < NV_LENGTH_S(fitt); ii++)

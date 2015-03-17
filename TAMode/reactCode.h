@@ -1,36 +1,20 @@
-/*
- *  TAMode.h
- *  TAMode
- *
- *  Created by Aaron Meyer on 2/15/15.
- *  Copyright (c) 2015 Aaron Meyer. All rights reserved.
- *
- */
+//
+//  reactCode.h
+//  TAMode
+//
+//  Created by Aaron Meyer on 3/8/15.
+//  Copyright (c) 2015 Aaron Meyer. All rights reserved.
+//
 
-#ifndef TAMode_
-#define TAMode_
-
-
+#ifndef __TAMode__reactCode__
+#define __TAMode__reactCode__
 
 #include "sundials_nvector.h"
-#include "cvode_impl.h"
-#include "cvode.h"
-#include "sundials_dense.h"
 
-#define autocrineT 10000
-#define Ith(v,i)    NV_Ith_S(v,i)       /* Ith numbers components 1..NEQ */
-#define NELEMS(x)  (sizeof(x) / sizeof(x[0]))
+#define Nspecies 55
 
-#define Nspecies 70
-#define Ith(v,i)    NV_Ith_S(v,i)       /* Ith numbers components 1..NEQ */
-
-
-
-
-const size_t hetRi[3][2] = {{1, 2}, {2, 3}, {1, 3}};
-
-
-
+const unsigned int hetRi[3][2] = {{1, 2}, {2, 3}, {1, 3}};
+enum TAMs: int {AXL, Mer, Tyro};
 
 struct TAMrates {
     double Binding1;   ///< Forward binding rate for Ig1
@@ -92,22 +76,13 @@ struct rates {
 
 
 
+struct rates Param(double *);
+int AXL_react(double, N_Vector, N_Vector, void *);
+double totCalc (N_Vector, struct rates *);
+double surfCalc (N_Vector, TAMs);
+double receptorTotCalc (N_Vector state, struct rates *p, TAMs selection);
+double pYCalc (N_Vector state, struct rates *p, TAMs selection);
 
 
 
-/* The classes below are exported */
-#if __cplusplus
-extern "C" {
-#endif
-    double pyEntry(double *pIn);
-    int calcProfileMatlab(double *, double *, double *, int, double, int);
-    void pyEntryVec(double *pIn, double *pOut, int n);
-    double pyEntryNew(double *);
-    void *initState( N_Vector, struct rates *);
-    int AXL_react(double, N_Vector, N_Vector, void *);
-    struct rates Param(double*);
-#if __cplusplus
-}   // Extern C
-#endif
-
-#endif
+#endif /* defined(__TAMode__reactCode__) */

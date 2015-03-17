@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0610"
+   LastUpgradeVersion = "0620"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "72361BBE1A90F4DB000CA293"
-               BuildableName = "libTAMode.dylib"
-               BlueprintName = "TAMode"
+               BlueprintIdentifier = "729845111AB08D3E001FEFBA"
+               BuildableName = "TAModePerf"
+               BlueprintName = "TAModePerf"
                ReferencedContainer = "container:TAMode.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,6 +29,15 @@
       buildConfiguration = "Debug">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "729845111AB08D3E001FEFBA"
+            BuildableName = "TAModePerf"
+            BlueprintName = "TAModePerf"
+            ReferencedContainer = "container:TAMode.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -39,15 +48,16 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "72361BBE1A90F4DB000CA293"
-            BuildableName = "libTAMode.dylib"
-            BlueprintName = "TAMode"
+            BlueprintIdentifier = "729845111AB08D3E001FEFBA"
+            BuildableName = "TAModePerf"
+            BlueprintName = "TAModePerf"
             ReferencedContainer = "container:TAMode.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -57,15 +67,16 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "72361BBE1A90F4DB000CA293"
-            BuildableName = "libTAMode.dylib"
-            BlueprintName = "TAMode"
+            BlueprintIdentifier = "729845111AB08D3E001FEFBA"
+            BuildableName = "TAModePerf"
+            BlueprintName = "TAModePerf"
             ReferencedContainer = "container:TAMode.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

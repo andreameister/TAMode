@@ -24,7 +24,7 @@
 #define ZERO RCONST(0.0)
 #define ONE  RCONST(1.0)
 
-DlsMat NewDenseMat(size_t M, size_t N) {
+DlsMat NewDenseMat(unsigned int M, unsigned int N) {
   DlsMat A;
 
   if ( (M <= 0) || (N <= 0) ) return(NULL);
@@ -157,13 +157,7 @@ void PrintMat(DlsMat A)
     printf("\n");
     for (i=0; i < A->M; i++) {
       for (j=0; j < A->N; j++) {
-#if defined(SUNDIALS_EXTENDED_PRECISION)
-        printf("%12Lg  ", DENSE_ELEM(A,i,j));
-#elif defined(SUNDIALS_DOUBLE_PRECISION)
         printf("%12lg  ", DENSE_ELEM(A,i,j));
-#else
-        printf("%12g  ", DENSE_ELEM(A,i,j));
-#endif
       }
       printf("\n");
     }
@@ -180,13 +174,7 @@ void PrintMat(DlsMat A)
       finish = MIN(A->N-1,i+A->mu);
       for (j=0; j < start; j++) printf("%12s  ","");
       for (j=start; j <= finish; j++) {
-#if defined(SUNDIALS_EXTENDED_PRECISION)
-        printf("%12Lg  ", a[j][i-j+A->s_mu]);
-#elif defined(SUNDIALS_DOUBLE_PRECISION)
         printf("%12lg  ", a[j][i-j+A->s_mu]);
-#else
-        printf("%12g  ", a[j][i-j+A->s_mu]);
-#endif
       }
       printf("\n");
     }

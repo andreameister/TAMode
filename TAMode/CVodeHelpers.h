@@ -14,17 +14,16 @@
 #include "cvode_direct.h"
 
 
-#define print_CV_err 1
+#define print_CV_err 0
 
 #define Ith(v,i)    NV_Ith_S(v,i)       /* Ith numbers components 1..NEQ */
+
+void solverReset (void *, N_Vector);
+double errorFuncOpt (N_Vector, const double *, const double *);
+double errorFuncFix (N_Vector, const double *, const double *);
 void* solver_setup (N_Vector, void *, double, double, CVRhsFn);
 void* solver_setup (N_Vector, void *, CVRhsFn);
-void solverReset (void *, N_Vector);
 void errorLogger (std::exception *);
 void errorLogger (std::stringstream &);
-
-
-static double errorFuncOpt (N_Vector, const double *, const double *);
-static double errorFuncFix (N_Vector, const double *, const double *);
 
 #endif /* defined(__UniformOptimization__CVodeHelpers__) */
