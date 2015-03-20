@@ -33,11 +33,11 @@
  */
 
 /* Constant for DQ Jacobian approximation */
-#define MIN_INC_MULT RCONST(1000.0)
+#define MIN_INC_MULT (1000.0)
 
-#define ZERO         RCONST(0.0)
-#define ONE          RCONST(1.0)
-#define TWO          RCONST(2.0)
+#define ZERO         (0.0)
+#define ONE          (1.0)
+#define TWO          (2.0)
 
 /*
  * =================================================================
@@ -103,70 +103,6 @@ int CVDlsSetDenseJacFn(void *cvode_mem, CVDlsDenseJacFn jac)
     djac = jac;
   } else {
     jacDQ = TRUE;
-  }
-
-  return(CVDLS_SUCCESS);
-}
-
-/*
- * CVDlsSetBandJacFn specifies the band Jacobian function.
- */
-int CVDlsSetBandJacFn(void *cvode_mem, CVDlsBandJacFn jac)
-{
-  CVodeMem cv_mem;
-  CVDlsMem cvdls_mem;
-
-  /* Return immediately if cvode_mem is NULL */
-  if (cvode_mem == NULL) {
-    CVProcessError(NULL, CVDLS_MEM_NULL, "CVDLS", "CVDlsSetBandJacFn", MSGD_CVMEM_NULL);
-    return(CVDLS_MEM_NULL);
-  }
-  cv_mem = (CVodeMem) cvode_mem;
-
-  if (lmem == NULL) {
-    CVProcessError(cv_mem, CVDLS_LMEM_NULL, "CVDLS", "CVDlsSetBandJacFn", MSGD_LMEM_NULL);
-    return(CVDLS_LMEM_NULL);
-  }
-  cvdls_mem = (CVDlsMem) lmem;
-
-  if (jac != NULL) {
-    jacDQ = FALSE;
-    bjac = jac;
-  } else {
-    jacDQ = TRUE;
-  }
-
-  return(CVDLS_SUCCESS);
-}
-
-/*
- * CVDlsGetWorkSpace returns the length of workspace allocated for the
- * CVDLS linear solver.
- */
-int CVDlsGetWorkSpace(void *cvode_mem, long int *lenrwLS, long int *leniwLS)
-{
-  CVodeMem cv_mem;
-  CVDlsMem cvdls_mem;
-
-  /* Return immediately if cvode_mem is NULL */
-  if (cvode_mem == NULL) {
-    CVProcessError(NULL, CVDLS_MEM_NULL, "CVDLS", "CVDlsGetWorkSpace", MSGD_CVMEM_NULL);
-    return(CVDLS_MEM_NULL);
-  }
-  cv_mem = (CVodeMem) cvode_mem;
-
-  if (lmem == NULL) {
-    CVProcessError(cv_mem, CVDLS_LMEM_NULL, "CVDLS", "CVDlsGetWorkSpace", MSGD_LMEM_NULL);
-    return(CVDLS_LMEM_NULL);
-  }
-  cvdls_mem = (CVDlsMem) lmem;
-
-  if (mtype == SUNDIALS_DENSE) {
-    *lenrwLS = 2*n*n;
-    *leniwLS = n;
-  } else if (mtype == SUNDIALS_BAND) {
-    *lenrwLS = n*(smu + mu + 2*ml + 2);
-    *leniwLS = n;
   }
 
   return(CVDLS_SUCCESS);
@@ -371,91 +307,6 @@ int cvDlsDenseDQJac(long int N, double t,
   /* Restore original array pointer in tmp2 */
   N_VSetArrayPointer(tmp2_data, tmp2);
 
-  return(retval);
-}
-
-/*
- * -----------------------------------------------------------------
- * cvDlsBandDQJac
- * -----------------------------------------------------------------
- * This routine generates a banded difference quotient approximation to
- * the Jacobian of f(t,y).  It assumes that a band matrix of type
- * DlsMat is stored column-wise, and that elements within each column
- * are contiguous. This makes it possible to get the address of a column
- * of J via the macro BAND_COL and to write a simple for loop to set
- * each of the elements of a column in succession.
- * -----------------------------------------------------------------
- */
-
-int cvDlsBandDQJac(long int N, long int mupper, long int mlower,
-                   __attribute__((unused)) double t, N_Vector y, N_Vector fy,
-                   DlsMat Jac, void *data,
-                   N_Vector tmp1, N_Vector tmp2, __attribute__((unused)) N_Vector tmp3) {
-  N_Vector ftemp, ytemp;
-  double fnorm, minInc, inc, inc_inv, srur;
-  double *col_j, *ewt_data, *fy_data, *ftemp_data, *y_data, *ytemp_data;
-  long int group, i, j, width, ngroups, i1, i2;
-  int retval = 0;
-
-  CVodeMem cv_mem;
-  CVDlsMem cvdls_mem;
-
-  /* data points to cvode_mem */
-  cv_mem = (CVodeMem) data;
-  cvdls_mem = (CVDlsMem) lmem;
-
-  /* Rename work vectors for use as temporary values of y and f */
-  ftemp = tmp1;
-  ytemp = tmp2;
-
-  /* Obtain pointers to the data for ewt, fy, ftemp, y, ytemp */
-  ewt_data   = N_VGetArrayPointer(ewt);
-  fy_data    = N_VGetArrayPointer(fy);
-  ftemp_data = N_VGetArrayPointer(ftemp);
-  y_data     = N_VGetArrayPointer(y);
-  ytemp_data = N_VGetArrayPointer(ytemp);
-
-  /* Load ytemp with y = predicted y vector */
-  N_VScale(ONE, y, ytemp);
-
-  /* Set minimum increment based on uround and norm of f */
-  srur = RSqrt(uround);
-  fnorm = N_VWrmsNorm(fy, ewt);
-  minInc = (fnorm != ZERO) ?
-           (MIN_INC_MULT * fabs(h) * uround * N * fnorm) : ONE;
-
-  /* Set bandwidth and number of column groups for band differencing */
-  width = mlower + mupper + 1;
-  ngroups = MIN(width, N);
-
-  /* Loop over column groups. */
-  for (group=1; group <= ngroups; group++) {
-    
-    /* Increment all y_j in group */
-    for(j=group-1; j < N; j+=width) {
-      inc = MAX(srur*fabs(y_data[j]), minInc/ewt_data[j]);
-      ytemp_data[j] += inc;
-    }
-
-    /* Evaluate f with incremented y */
-
-    retval = f(tn, ytemp, ftemp, user_data);
-    nfeDQ++;
-    if (retval != 0) break;
-
-    /* Restore ytemp, then form and load difference quotients */
-    for (j=group-1; j < N; j+=width) {
-      ytemp_data[j] = y_data[j];
-      col_j = BAND_COL(Jac,j);
-      inc = MAX(srur*fabs(y_data[j]), minInc/ewt_data[j]);
-      inc_inv = ONE/inc;
-      i1 = MAX(0, j-mupper);
-      i2 = MIN(j+mlower, N-1);
-      for (i=i1; i <= i2; i++)
-        BAND_COL_ELEM(col_j,i,j) = inc_inv * (ftemp_data[i] - fy_data[i]);
-    }
-  }
-  
   return(retval);
 }
 

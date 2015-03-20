@@ -23,7 +23,6 @@ extern "C" {
 #endif
 
 #include "cvode_direct.h"
-#include "sundials_dense.h"
 
 /*
  * -----------------------------------------------------------------
@@ -44,6 +43,9 @@ extern "C" {
  *    CVDLS_ILL_INPUT if a required vector operation is missing
  * -----------------------------------------------------------------
  */
+    
+#define TRUE 1
+#define FALSE 0
 
 SUNDIALS_EXPORT int CVDense(void *cvode_mem, long int N);
 

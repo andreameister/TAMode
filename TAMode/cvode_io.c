@@ -19,15 +19,16 @@
 #include <stdlib.h>
 
 #include "cvode_impl.h"
-#include "sundials_types.h"
 
-#define ZERO RCONST(0.0)
-#define ONE  RCONST(1.0)
+#define ZERO (0.0)
+#define ONE  (1.0)
 
 #define lrw (cv_mem->cv_lrw)
 #define liw (cv_mem->cv_liw)
 #define lrw1 (cv_mem->cv_lrw1)
 #define liw1 (cv_mem->cv_liw1)
+#define TRUE 1
+#define FALSE 0
 
 /* 
  * =================================================================
@@ -76,33 +77,6 @@ int CVodeSetErrFile(void *cvode_mem, FILE *errfp)
   cv_mem = (CVodeMem) cvode_mem;
 
   cv_mem->cv_errfp = errfp;
-
-  return(CV_SUCCESS);
-}
-
-/* 
- * CVodeSetIterType
- *
- * Specifies the iteration type (CV_FUNCTIONAL or CV_NEWTON)
- */
-
-int CVodeSetIterType(void *cvode_mem, int iter)
-{
-  CVodeMem cv_mem;
-
-  if (cvode_mem==NULL) {
-    CVProcessError(NULL, CV_MEM_NULL, "CVODE", "CVodeSetIterType", MSGCV_NO_MEM);
-    return(CV_MEM_NULL);
-  }
-
-  cv_mem = (CVodeMem) cvode_mem;
-
-  if ((iter != CV_FUNCTIONAL) && (iter != CV_NEWTON)) {
-    CVProcessError(cv_mem, CV_ILL_INPUT, "CVODE", "CVodeSetIterType", MSGCV_BAD_ITER);
-    return (CV_ILL_INPUT);
-  }
-
-  cv_mem->cv_iter = iter;
 
   return(CV_SUCCESS);
 }
@@ -221,7 +195,7 @@ int CVodeSetMaxHnilWarns(void *cvode_mem, int mxhnil)
  * Turns on/off the stability limit detection algorithm
  */
 
-int CVodeSetStabLimDet(void *cvode_mem, booleantype sldet)
+int CVodeSetStabLimDet(void *cvode_mem, int sldet)
 {
   CVodeMem cv_mem;
 

@@ -24,22 +24,174 @@
 
 /* Constants */
 
-#define ZERO         RCONST(0.0)
-#define ONE          RCONST(1.0)
-#define TWO          RCONST(2.0)
+#define ZERO         (0.0)
+#define ONE          (1.0)
+#define TWO          (2.0)
 
 /* CVDENSE linit, lsetup, lsolve, and lfree routines */
  
 static int cvDenseInit(CVodeMem cv_mem);
 
 static int cvDenseSetup(CVodeMem cv_mem, int convfail, N_Vector ypred,
-                        N_Vector fpred, booleantype *jcurPtr, 
+                        N_Vector fpred, int *jcurPtr, 
                         N_Vector vtemp1, N_Vector vtemp2, N_Vector vtemp3);
 
 static int cvDenseSolve(CVodeMem cv_mem, N_Vector b, N_Vector weight,
                         N_Vector ycur, N_Vector fcur);
 
 static void cvDenseFree(CVodeMem cv_mem);
+
+
+
+/*
+ * -----------------------------------------------------
+ * Functions working on DlsMat
+ * -----------------------------------------------------
+ */
+static long int denseGETRF(double **a, unsigned int m, unsigned int n, long int *p) {
+    double *col_j, *col_k;
+    double temp, mult, a_kj;
+    
+    /* k-th elimination step number */
+    for (unsigned int k=0; k < n; k++) {
+        
+        col_k  = a[k];
+        
+        /* find l = pivot row number */
+        unsigned int l = k;
+        for (unsigned int i=k+1; i < m; i++)
+            if (fabs(col_k[i]) > fabs(col_k[l])) l=i;
+        p[k] = l;
+        
+        /* check for zero pivot element */
+        if (col_k[l] == ZERO) return(k+1);
+        
+        /* swap a(k,1:n) and a(l,1:n) if necessary */
+        if ( l!= k ) {
+            for (unsigned int i=0; i<n; i++) {
+                temp = a[i][l];
+                a[i][l] = a[i][k];
+                a[i][k] = temp;
+            }
+        }
+        
+        /* Scale the elements below the diagonal in
+         * column k by 1.0/a(k,k). After the above swap
+         * a(k,k) holds the pivot element. This scaling
+         * stores the pivot row multipliers a(i,k)/a(k,k)
+         * in a(i,k), i=k+1, ..., m-1.
+         */
+        mult = ONE/col_k[k];
+        for(unsigned int i=k+1; i < m; i++) col_k[i] *= mult;
+        
+        /* row_i = row_i - [a(i,k)/a(k,k)] row_k, i=k+1, ..., m-1 */
+        /* row k is the pivot row after swapping with row l.      */
+        /* The computation is done one column at a time,          */
+        /* column j=k+1, ..., n-1.                                */
+        
+        for (unsigned int j=k+1; j < n; j++) {
+            
+            col_j = a[j];
+            a_kj = col_j[k];
+            
+            /* a(i,j) = a(i,j) - [a(i,k)/a(k,k)]*a(k,j)  */
+            /* a_kj = a(k,j), col_k[i] = - a(i,k)/a(k,k) */
+            
+            if (a_kj != ZERO) {
+                for (unsigned int i=k+1; i < m; i++)
+                    col_j[i] -= a_kj * col_k[i];
+            }
+        }
+    }
+    
+    /* return 0 to indicate success */
+    
+    return(0);
+}
+
+static void denseGETRS(double **a, unsigned int n, long int *p, double *b) {
+    double *col_k, tmp;
+    
+    /* Permute b, based on pivot information in p */
+    for (unsigned int k=0; k<n; k++) {
+        long int pk = p[k];
+        if(pk != k) {
+            tmp = b[k];
+            b[k] = b[pk];
+            b[pk] = tmp;
+        }
+    }
+    
+    /* Solve Ly = b, store solution y in b */
+    for (unsigned int k=0; k<n-1; k++) {
+        col_k = a[k];
+        for (unsigned int i=k+1; i<n; i++) b[i] -= col_k[i]*b[k];
+    }
+    
+    /* Solve Ux = y, store solution x in b */
+    for (unsigned int k = (unsigned int) n-1; k > 0; k--) {
+        col_k = a[k];
+        b[k] /= col_k[k];
+        for (unsigned int i=0; i<k; i++) b[i] -= col_k[i]*b[k];
+    }
+    b[0] /= a[0][0];
+}
+
+static void denseCopy(double **a, double **b, long int m, long int n)
+{
+    long int i, j;
+    double *a_col_j, *b_col_j;
+    
+    for (j=0; j < n; j++) {
+        a_col_j = a[j];
+        b_col_j = b[j];
+        for (i=0; i < m; i++)
+            b_col_j[i] = a_col_j[i];
+    }
+    
+}
+
+static void denseScale(double c, double **a, long int m, long int n)
+{
+    long int i, j;
+    double *col_j;
+    
+    for (j=0; j < n; j++) {
+        col_j = a[j];
+        for (i=0; i < m; i++)
+            col_j[i] *= c;
+    }
+}
+
+static void denseAddIdentity(double **a, long int n)
+{
+    long int i;
+    
+    for (i=0; i < n; i++) a[i][i] += ONE;
+}
+
+
+static long int DenseGETRF(DlsMat A, long int *p)
+{
+    return(denseGETRF(A->cols, A->M, A->N, p));
+}
+
+static void DenseGETRS(DlsMat A, long int *p, double *b)
+{
+    denseGETRS(A->cols, A->N, p, b);
+}
+
+static void DenseCopy(DlsMat A, DlsMat B)
+{
+    denseCopy(A->cols, B->cols, A->M, A->N);
+}
+
+static void DenseScale(double c, DlsMat A)
+{
+    denseScale(c, A->cols, A->M, A->N);
+}
+
+
 
 /* Readability Replacements */
 
@@ -72,6 +224,7 @@ static void cvDenseFree(CVodeMem cv_mem);
 #define nfeDQ     (cvdls_mem->d_nfeDQ)
 #define J_data    (cvdls_mem->d_J_data)
 #define last_flag (cvdls_mem->d_last_flag)
+
                   
 /*
  * -----------------------------------------------------------------
@@ -225,10 +378,10 @@ static int cvDenseInit(CVodeMem cv_mem)
  */
 
 static int cvDenseSetup(CVodeMem cv_mem, int convfail, N_Vector ypred,
-                        N_Vector fpred, booleantype *jcurPtr, 
+                        N_Vector fpred, int *jcurPtr, 
                         N_Vector vtemp1, N_Vector vtemp2, N_Vector vtemp3)
 {
-  booleantype jbad, jok;
+  int jbad, jok;
   double dgamma;
   long int ier;
   CVDlsMem cvdls_mem;

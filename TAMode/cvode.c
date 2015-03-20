@@ -24,9 +24,9 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <float.h>
 
 #include "cvode_impl.h"
-#include "sundials_types.h"
 
 /*=================================================================*/
 /*             Macros                                              */
@@ -39,19 +39,18 @@
 /*             CVODE Private Constants                             */
 /*=================================================================*/
 
-#define ZERO   RCONST(0.0)     /* real 0.0     */
-#define TINY   RCONST(1.0e-10) /* small number */
-#define TENTH  RCONST(0.1)     /* real 0.1     */
-#define POINT2 RCONST(0.2)     /* real 0.2     */
-#define FOURTH RCONST(0.25)    /* real 0.25    */
-#define HALF   RCONST(0.5)     /* real 0.5     */
-#define ONE    RCONST(1.0)     /* real 1.0     */
-#define TWO    RCONST(2.0)     /* real 2.0     */
-#define THREE  RCONST(3.0)     /* real 3.0     */
-#define FOUR   RCONST(4.0)     /* real 4.0     */
-#define FIVE   RCONST(5.0)     /* real 5.0     */
-#define TWELVE RCONST(12.0)    /* real 12.0    */
-#define HUN    RCONST(100.0)   /* real 100.0   */
+#define ZERO   (0.0)     /* real 0.0     */
+#define TINY   (1.0e-10) /* small number */
+#define TENTH  (0.1)     /* real 0.1     */
+#define FOURTH (0.25)    /* real 0.25    */
+#define HALF   (0.5)     /* real 0.5     */
+#define ONE    (1.0)     /* real 1.0     */
+#define TWO    (2.0)     /* real 2.0     */
+#define THREE  (3.0)     /* real 3.0     */
+#define FOUR   (4.0)     /* real 4.0     */
+#define FIVE   (5.0)     /* real 5.0     */
+#define TWELVE (12.0)    /* real 12.0    */
+#define HUN    (100.0)   /* real 100.0   */
 
 /*=================================================================*/
 /*             CVODE Routine-Specific Constants                   */
@@ -197,27 +196,27 @@
  */
 
 
-#define FUZZ_FACTOR RCONST(100.0)
+#define FUZZ_FACTOR (100.0)
 
-#define HLB_FACTOR RCONST(100.0)
-#define HUB_FACTOR RCONST(0.1)
+#define HLB_FACTOR (100.0)
+#define HUB_FACTOR (0.1)
 #define H_BIAS     HALF
 #define MAX_ITERS  4
 
-#define CORTES RCONST(0.1)
+#define CORTES (0.1)
 
-#define THRESH RCONST(1.5)
-#define ETAMX1 RCONST(10000.0) 
-#define ETAMX2 RCONST(10.0)
-#define ETAMX3 RCONST(10.0)
-#define ETAMXF RCONST(0.2)
-#define ETAMIN RCONST(0.1)
-#define ETACF  RCONST(0.25)
-#define ADDON  RCONST(0.000001)
-#define BIAS1  RCONST(6.0)
-#define BIAS2  RCONST(6.0)
-#define BIAS3  RCONST(10.0)
-#define ONEPSM RCONST(1.000001)
+#define THRESH (1.5)
+#define ETAMX1 (10000.0) 
+#define ETAMX2 (10.0)
+#define ETAMX3 (10.0)
+#define ETAMXF (0.2)
+#define ETAMIN (0.1)
+#define ETACF  (0.25)
+#define ADDON  (0.000001)
+#define BIAS1  (6.0)
+#define BIAS2  (6.0)
+#define BIAS3  (10.0)
+#define ONEPSM (1.000001)
 
 #define SMALL_NST    10
 #define MXNCF        10
@@ -227,8 +226,8 @@
 #define LONG_WAIT    10
 
 #define NLS_MAXCOR 3
-#define CRDOWN RCONST(0.3)
-#define DGMAX  RCONST(0.3)
+#define CRDOWN (0.3)
+#define DGMAX  (0.3)
 
 #define RDIV      TWO
 #define MSBP       20
@@ -237,11 +236,11 @@
 /*             Private Helper Functions Prototypes                 */
 /*=================================================================*/
 
-static booleantype CVCheckNvector(N_Vector tmpl);
+static int CVCheckNvector(N_Vector tmpl);
 
 static int CVInitialSetup(CVodeMem cv_mem);
 
-static booleantype CVAllocVectors(CVodeMem cv_mem, N_Vector tmpl);
+static int CVAllocVectors(CVodeMem cv_mem, N_Vector tmpl);
 static void CVFreeVectors(CVodeMem cv_mem);
 
 static int CVEwtSetSS(CVodeMem cv_mem, N_Vector ycur, N_Vector weight);
@@ -355,7 +354,7 @@ void *CVodeCreate(int lmm, int iter)
   cv_mem->cv_iter = iter;
 
   /* Set uround */
-  cv_mem->cv_uround = UNIT_ROUNDOFF;
+  cv_mem->cv_uround = DBL_EPSILON;
 
   /* Set default values for integrator optional inputs */
   cv_mem->cv_f          = NULL;
@@ -432,7 +431,7 @@ void *CVodeCreate(int lmm, int iter)
 int CVodeInit(void *cvode_mem, CVRhsFn f, double t0, N_Vector y0)
 {
   CVodeMem cv_mem;
-  booleantype nvectorOK, allocOK;
+  int nvectorOK, allocOK;
   long int lrw1, liw1;
   int i,k;
 
@@ -926,7 +925,7 @@ int CVodeRootInit(void *cvode_mem, int nrtfn, CVRootFn g)
   }
 
   gactive = NULL;
-  gactive = (booleantype *) malloc((size_t) nrt*sizeof(booleantype));
+  gactive = (int *) malloc((size_t) nrt*sizeof(int));
   if (gactive == NULL) {
     free(glo); glo = NULL; 
     free(ghi); ghi = NULL;
@@ -1072,7 +1071,7 @@ int CVode(void *cvode_mem, double tout, N_Vector yout,
   int retval, hflag, kflag, istate, ir, ier, irfndp;
   int ewtsetOK;
   double troundoff, tout_hin, rh, nrm;
-  booleantype inactive_roots;
+  int inactive_roots;
 
   /*
    * -------------------------------------
@@ -1591,7 +1590,7 @@ void CVodeFree(void **cvode_mem)
  * If any of them is missing it returns FALSE.
  */
 
-static booleantype CVCheckNvector(N_Vector tmpl)
+static int CVCheckNvector(N_Vector tmpl)
 {
   if((tmpl->ops->nvclone     == NULL) ||
      (tmpl->ops->nvdestroy   == NULL) ||
@@ -1623,7 +1622,7 @@ static booleantype CVCheckNvector(N_Vector tmpl)
  * allocated here.
  */
 
-static booleantype CVAllocVectors(CVodeMem cv_mem, N_Vector tmpl)
+static int CVAllocVectors(CVodeMem cv_mem, N_Vector tmpl)
 {
   int i, j;
 
@@ -1802,7 +1801,7 @@ static int CVHin(CVodeMem cv_mem, double tout)
   double hg, hgs, hs, hnew, hrat, h0, yddnrm;
   hnew = 0;
     yddnrm = 0;
-  booleantype hgOK, hnewOK;
+  int hgOK, hnewOK;
 
   /* If tout is too close to tn, give up */
   
@@ -1850,7 +1849,7 @@ static int CVHin(CVodeMem cv_mem, double tout)
       /* If successful, we can use ydd */
       if (retval == CV_SUCCESS) {hgOK = TRUE; break;}
       /* f() failed recoverably; cut step size and test it again */
-      hg *= POINT2;
+      hg *= 0.2;
     }
 
     /* If f() failed recoverably MAX_ITERS times */
@@ -2641,7 +2640,7 @@ static int CVNlsNewton(CVodeMem cv_mem, int nflag)
 {
   N_Vector vtemp1, vtemp2, vtemp3;
   int convfail, retval, ier;
-  booleantype callSetup;
+  int callSetup;
   
   vtemp1 = acor;  /* rename acor as vtemp1 for readability  */
   vtemp2 = y;     /* rename y as vtemp2 for readability     */
@@ -2899,7 +2898,7 @@ static void CVRestore(CVodeMem cv_mem, double saved_t)
  *
  */
 
-static booleantype CVDoErrorTest(CVodeMem cv_mem, int *nflagPtr,
+static int CVDoErrorTest(CVodeMem cv_mem, int *nflagPtr,
                                 double saved_t, int *nefPtr, double *dsmPtr)
 {
   double dsm;
@@ -3338,11 +3337,11 @@ static int CVsldet(CVodeMem cv_mem)
 
   /* The following are cutoffs and tolerances used by this routine */
 
-  rrcut  = RCONST(0.98);
-  vrrtol = RCONST(1.0e-4);
-  vrrt2  = RCONST(5.0e-4);
-  sqtol  = RCONST(1.0e-3);
-  rrtol  = RCONST(1.0e-2);
+  rrcut  = (0.98);
+  vrrtol = (1.0e-4);
+  vrrt2  = (5.0e-4);
+  sqtol  = (1.0e-3);
+  rrtol  = (1.0e-2);
   
   /*  Index k corresponds to the degree of the interpolating polynomial. */
   /*      k = 1 -> q-1          */
@@ -3617,7 +3616,7 @@ static int CVRcheck1(CVodeMem cv_mem)
 {
   int i, retval;
   double smallh, hratio, tplus;
-  booleantype zroot;
+  int zroot;
 
   for (i = 0; i < nrtfn; i++) iroots[i] = 0;
   tlo = tn;
@@ -3682,7 +3681,7 @@ static int CVRcheck2(CVodeMem cv_mem)
 {
   int i, retval;
   double smallh, hratio, tplus;
-  booleantype zroot;
+  int zroot;
 
   if (irfnd == 0) return(CV_SUCCESS);
 
@@ -3869,7 +3868,7 @@ static int CVRootfind(CVodeMem cv_mem)
 {
   double alpha, tmid, gfrac, maxfrac, fracint, fracsub;
   int i, retval, imax, side, sideprev;
-  booleantype zroot, sgnchg;
+  int zroot, sgnchg;
 
   imax = 0;
 
