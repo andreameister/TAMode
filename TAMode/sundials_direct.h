@@ -22,8 +22,9 @@
 #ifdef __cplusplus  /* wrapper to enable C++ usage */
 extern "C" {
 #endif
-
-#include "sundials_types.h"
+    
+    
+#include <float.h>
 
 /*
  * =================================================================
@@ -177,7 +178,6 @@ typedef struct _DlsMat {
 #define BAND_ELEM(A,i,j) ((A->cols)[j][(i)-(j)+(A->s_mu)])
 
 DlsMat NewDenseMat(unsigned int M, unsigned int N);
-DlsMat NewBandMat(long int N, long int mu, long int ml, long int smu);
 void DestroyMat(DlsMat A);
 int *NewIntArray(int N);
 long int *NewLintArray(long int N);
@@ -188,7 +188,6 @@ void SetToZero(DlsMat A);
 void PrintMat(DlsMat A);
 
 double **newDenseMat(unsigned int m, unsigned int n);
-double **newBandMat(long int n, long int smu, long int ml);
 void destroyMat(double **a);
 int *newIntArray(int n);
 long int *newLintArray(long int n);
