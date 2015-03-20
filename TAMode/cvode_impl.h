@@ -40,8 +40,8 @@ extern "C" {
 #define L_MAX  (Q_MAX+1)   /* max value of L for either lmm       */
 #define NUM_TESTS    5     /* number of error test quantities     */
 
-#define HMIN_DEFAULT     RCONST(0.0)    /* hmin default value     */
-#define HMAX_INV_DEFAULT RCONST(0.0)    /* hmax_inv default value */
+#define HMIN_DEFAULT     (0.0)    /* hmin default value     */
+#define HMAX_INV_DEFAULT (0.0)    /* hmax_inv default value */
 #define MXHNIL_DEFAULT   10             /* mxhnil default value   */
 #define MXSTEP_DEFAULT   500            /* mxstep default value   */
 
@@ -71,7 +71,7 @@ typedef struct CVodeMemRec {
   double cv_reltol;        /* relative tolerance                            */
   double cv_Sabstol;       /* scalar absolute tolerance                     */
   N_Vector cv_Vabstol;       /* vector absolute tolerance                     */
-  booleantype cv_user_efun;  /* TRUE if user sets efun                        */
+  int cv_user_efun;  /* TRUE if user sets efun                        */
   CVEwtFn cv_efun;           /* function to set ewt                           */
   void *cv_e_data;           /* user pointer passed to efun                   */
 
@@ -102,7 +102,7 @@ typedef struct CVodeMemRec {
     Tstop information
     -----------------*/
 
-  booleantype cv_tstopset;
+  int cv_tstopset;
   double cv_tstop;
 
   /*---------
@@ -194,7 +194,7 @@ typedef struct CVodeMemRec {
   int (*cv_linit)(struct CVodeMemRec *cv_mem);
 
   int (*cv_lsetup)(struct CVodeMemRec *cv_mem, int convfail, N_Vector ypred,
-		   N_Vector fpred, booleantype *jcurPtr, N_Vector vtemp1,
+		   N_Vector fpred, int *jcurPtr, N_Vector vtemp1,
 		   N_Vector vtemp2, N_Vector vtemp3); 
 
   int (*cv_lsolve)(struct CVodeMemRec *cv_mem, N_Vector b, N_Vector weight,
@@ -215,14 +215,14 @@ typedef struct CVodeMemRec {
   double cv_h0u;             /* actual initial stepsize                     */
   double cv_hu;              /* last successful h value used                */
   double cv_saved_tq5;       /* saved value of tq[5]                        */
-  booleantype cv_jcur;         /* is Jacobian info. for lin. solver current?  */
+  int cv_jcur;         /* is Jacobian info. for lin. solver current?  */
   double cv_tolsf;           /* tolerance scale factor                      */
   int cv_qmax_alloc;           /* value of qmax used when allocating memory   */
   int cv_indx_acor;            /* index of the zn vector with saved acor      */
-  booleantype cv_setupNonNull; /* does setup do anything?                     */
+  int cv_setupNonNull; /* does setup do anything?                     */
 
-  booleantype cv_VabstolMallocDone;
-  booleantype cv_MallocDone;  
+  int cv_VabstolMallocDone;
+  int cv_MallocDone;  
 
   /*-------------------------------------------
     Error handler function and error ouput file 
@@ -236,7 +236,7 @@ typedef struct CVodeMemRec {
     Stability Limit Detection
     -------------------------*/
 
-  booleantype cv_sldeton;     /* is Stability Limit Detection on?             */
+  int cv_sldeton;     /* is Stability Limit Detection on?             */
   double cv_ssdat[6][4];    /* scaled data array for STALD                  */
   int cv_nscon;               /* counter for STALD method                     */
   long int cv_nor;            /* counter for number of order reductions       */
@@ -260,7 +260,7 @@ typedef struct CVodeMemRec {
   int cv_taskc;            /* copy of parameter itask                         */
   int cv_irfnd;            /* flag showing whether last step had a root       */
   long int cv_nge;         /* counter for g evaluations                       */
-  booleantype *cv_gactive; /* array with active/inactive event functions      */
+  int *cv_gactive; /* array with active/inactive event functions      */
   int cv_mxgnull;          /* number of warning messages about possible g==0  */
 
 
@@ -325,7 +325,7 @@ typedef struct CVodeMemRec {
 /*
  * -----------------------------------------------------------------
  * int (*cv_lsetup)(CVodeMem cv_mem, int convfail, N_Vector ypred,
- *                 N_Vector fpred, booleantype *jcurPtr,
+ *                 N_Vector fpred, int *jcurPtr,
  *                 N_Vector vtemp1, N_Vector vtemp2,
  *                 N_Vector vtemp3);
  * -----------------------------------------------------------------

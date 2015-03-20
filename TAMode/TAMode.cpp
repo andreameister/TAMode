@@ -40,8 +40,6 @@ void *initState( N_Vector init, struct rates *params) {
     return cvode_mem;
 }
 
-
-
 /// Calculate phosphorylation at time points measured
 static void calcProfileSet (TAMout *outData, double *tps, struct rates *params, int nTps, double GasStim) {
     N_Vector state = N_VNew_Serial(Nspecies);

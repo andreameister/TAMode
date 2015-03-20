@@ -7,7 +7,6 @@
 //
 
 #include "reactCode.h"
-#include "sundials_dense.h"
 #include "sundials_nvector.h"
 #include "nvector_serial.h"
 #include <algorithm>
