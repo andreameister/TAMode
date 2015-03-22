@@ -39,6 +39,8 @@
 /*             CVODE Private Constants                             */
 /*=================================================================*/
 
+#define TRUE 1
+#define FALSE 0
 #define ZERO   (0.0)     /* real 0.0     */
 #define TINY   (1.0e-10) /* small number */
 #define TENTH  (0.1)     /* real 0.1     */
@@ -294,7 +296,6 @@ static void CVSetEta(CVodeMem cv_mem);
 static double CVComputeEtaqm1(CVodeMem cv_mem);
 static double CVComputeEtaqp1(CVodeMem cv_mem);
 static void CVChooseEta(CVodeMem cv_mem);
-static void CVBDFStab(CVodeMem cv_mem);
 
 static int  CVHandleFailure(CVodeMem cv_mem,int flag);
 
@@ -369,8 +370,7 @@ void *CVodeCreate(int lmm, int iter)
   cv_mem->cv_qmax       = maxord;
   cv_mem->cv_mxstep     = MXSTEP_DEFAULT;
   cv_mem->cv_mxhnil     = MXHNIL_DEFAULT;
-  cv_mem->cv_sldeton    = FALSE;
-  cv_mem->cv_hin        = ZERO;
+  cv_mem->cv_hin        = 0.0;
   cv_mem->cv_hmin       = HMIN_DEFAULT;
   cv_mem->cv_hmax_inv   = HMAX_INV_DEFAULT;
   cv_mem->cv_tstopset   = FALSE;
@@ -497,7 +497,7 @@ int CVodeInit(void *cvode_mem, CVRhsFn f, double t0, N_Vector y0)
   cv_mem->cv_etamax = ETAMX1;
 
   cv_mem->cv_qu    = 0;
-  cv_mem->cv_hu    = ZERO;
+  cv_mem->cv_hu    = 0.0;
   cv_mem->cv_tolsf = ONE;
 
   /* Set the linear solver addresses to NULL.
@@ -530,8 +530,8 @@ int CVodeInit(void *cvode_mem, CVRhsFn f, double t0, N_Vector y0)
 
   /* Initialize other integrator optional outputs */
 
-  cv_mem->cv_h0u      = ZERO;
-  cv_mem->cv_next_h   = ZERO;
+  cv_mem->cv_h0u      = 0.0;
+  cv_mem->cv_next_h   = 0.0;
   cv_mem->cv_next_q   = 0;
 
   /* Initialize Stablilty Limit Detection data */
@@ -2035,12 +2035,7 @@ static int CVStep(CVodeMem cv_mem)
 
   CVCompleteStep(cv_mem); 
 
-  CVPrepareNextStep(cv_mem, dsm); 
-
-  /* If Stablilty Limit Detection is turned on, call stability limit
-     detection routine for possible order reduction. */
-
-  if (sldeton) CVBDFStab(cv_mem);
+  CVPrepareNextStep(cv_mem, dsm);
 
   etamax = (nst <= SMALL_NST) ? ETAMX2 : ETAMX3;
 
@@ -2898,8 +2893,8 @@ static void CVRestore(CVodeMem cv_mem, double saved_t)
  *
  */
 
-static int CVDoErrorTest(CVodeMem cv_mem, int *nflagPtr,
-                                double saved_t, int *nefPtr, double *dsmPtr)
+static int CVDoErrorTest(CVodeMem cv_mem, int * const nflagPtr,
+                                double saved_t, int * const nefPtr, double * const dsmPtr)
 {
   double dsm;
   int retval;
@@ -2981,18 +2976,16 @@ static int CVDoErrorTest(CVodeMem cv_mem, int *nflagPtr,
 
 static void CVCompleteStep(CVodeMem cv_mem)
 {
-  int i, j;
-  
   nst++;
   nscon++;
   hu = h;
   qu = q;
 
-  for (i=q; i >= 2; i--)  tau[i] = tau[i-1];
+  for (size_t i= (size_t) q; i >= 2; i--)  tau[i] = tau[i-1];
   if ((q==1) && (nst > 1)) tau[2] = tau[1];
   tau[1] = h;
 
-  for (j=0; j <= q; j++) 
+  for (size_t j=0; j <= q; j++)
     N_VLinearSum(l[j], acor, ONE, zn[j], zn[j]);
   qwait--;
   if ((qwait == 1) && (q != qmax)) {
@@ -3011,7 +3004,7 @@ static void CVCompleteStep(CVodeMem cv_mem)
  * related to a change of step size or order. 
  */
 
- static void CVPrepareNextStep(CVodeMem cv_mem, double dsm)
+ static void CVPrepareNextStep(CVodeMem cv_mem, const double dsm)
 {
   /* If etamax = 1, defer step size or order changes */
   if (etamax == ONE) {
@@ -3226,371 +3219,7 @@ static int CVHandleFailure(CVodeMem cv_mem, int flag)
  * =================================================================
  */
 
-/*
- * CVBDFStab
- *
- * This routine handles the BDF Stability Limit Detection Algorithm
- * STALD.  It is called if lmm = CV_BDF and the SLDET option is on.
- * If the order is 3 or more, the required norm data is saved.
- * If a decision to reduce order has not already been made, and
- * enough data has been saved, CVsldet is called.  If it signals
- * a stability limit violation, the order is reduced, and the step
- * size is reset accordingly.
- */
 
-void CVBDFStab(CVodeMem cv_mem)
-{
-  int i,k, ldflag, factorial;
-  double sq, sqm1, sqm2;
-      
-  /* If order is 3 or greater, then save scaled derivative data,
-     push old data down in i, then add current values to top.    */
-
-  if (q >= 3) {
-    for (k = 1; k <= 3; k++)
-      { for (i = 5; i >= 2; i--) ssdat[i][k] = ssdat[i-1][k]; }
-    factorial = 1;
-    for (i = 1; i <= q-1; i++) factorial *= i;
-    sq = factorial*q*(q+1)*acnrm/MAX(tq[5],TINY);
-    sqm1 = factorial*q*N_VWrmsNorm(zn[q], ewt);
-    sqm2 = factorial*N_VWrmsNorm(zn[q-1], ewt);
-    ssdat[1][1] = sqm2*sqm2;
-    ssdat[1][2] = sqm1*sqm1;
-    ssdat[1][3] = sq*sq;
-  }  
-
-  if (qprime >= q) {
-
-    /* If order is 3 or greater, and enough ssdat has been saved,
-       nscon >= q+5, then call stability limit detection routine.  */
-
-    if ( (q >= 3) && (nscon >= q+5) ) {
-      ldflag = CVsldet(cv_mem);
-      if (ldflag > 3) {
-        /* A stability limit violation is indicated by
-           a return flag of 4, 5, or 6.
-           Reduce new order.                     */
-        qprime = q-1;
-        eta = etaqm1; 
-        eta = MIN(eta,etamax);
-        eta = eta/MAX(ONE,fabs(h)*hmax_inv*eta);
-        hprime = h*eta;
-        nor = nor + 1;
-      }
-    }
-  }
-  else {
-    /* Otherwise, let order increase happen, and 
-       reset stability limit counter, nscon.     */
-    nscon = 0;
-  }
-}
-
-/*
- * CVsldet
- *
- * This routine detects stability limitation using stored scaled 
- * derivatives data. CVsldet returns the magnitude of the
- * dominate characteristic root, rr. The presents of a stability
- * limit is indicated by rr > "something a little less then 1.0",  
- * and a positive kflag. This routine should only be called if
- * order is greater than or equal to 3, and data has been collected
- * for 5 time steps. 
- * 
- * Returned values:
- *    kflag = 1 -> Found stable characteristic root, normal matrix case
- *    kflag = 2 -> Found stable characteristic root, quartic solution
- *    kflag = 3 -> Found stable characteristic root, quartic solution,
- *                 with Newton correction
- *    kflag = 4 -> Found stability violation, normal matrix case
- *    kflag = 5 -> Found stability violation, quartic solution
- *    kflag = 6 -> Found stability violation, quartic solution,
- *                 with Newton correction
- *
- *    kflag < 0 -> No stability limitation, 
- *                 or could not compute limitation.
- *
- *    kflag = -1 -> Min/max ratio of ssdat too small.
- *    kflag = -2 -> For normal matrix case, vmax > vrrt2*vrrt2
- *    kflag = -3 -> For normal matrix case, The three ratios
- *                  are inconsistent.
- *    kflag = -4 -> Small coefficient prevents elimination of quartics.  
- *    kflag = -5 -> R value from quartics not consistent.
- *    kflag = -6 -> No corrected root passes test on qk values
- *    kflag = -7 -> Trouble solving for sigsq.
- *    kflag = -8 -> Trouble solving for B, or R via B.
- *    kflag = -9 -> R via sigsq[k] disagrees with R from data.
- */
-
-static int CVsldet(CVodeMem cv_mem)
-{
-  int i, k, j, it, kmin, kflag = 0;
-  double rat[5][4], rav[4], qkr[4], sigsq[4], smax[4], ssmax[4];
-  double drr[4], rrc[4],sqmx[4], qjk[4][4], vrat[5], qc[6][4], qco[6][4];
-  double rr, rrcut, vrrtol, vrrt2, sqtol, rrtol;
-  double smink, smaxk, sumrat, sumrsq, vmin, vmax, drrmax, adrr;
-  double tem, sqmax, saqk, qp, s, sqmaxk, saqj, sqmin;
-  double rsa, rsb, rsc, rsd, rd1a, rd1b, rd1c;
-  double rd2a, rd2b, rd3a, cest1, corr1; 
-  double ratp, ratm, qfac1, qfac2, bb, rrb;
-    sqmin = 0;
-
-  /* The following are cutoffs and tolerances used by this routine */
-
-  rrcut  = (0.98);
-  vrrtol = (1.0e-4);
-  vrrt2  = (5.0e-4);
-  sqtol  = (1.0e-3);
-  rrtol  = (1.0e-2);
-  
-  /*  Index k corresponds to the degree of the interpolating polynomial. */
-  /*      k = 1 -> q-1          */
-  /*      k = 2 -> q            */
-  /*      k = 3 -> q+1          */
-  
-  /*  Index i is a backward-in-time index, i = 1 -> current time, */
-  /*      i = 2 -> previous step, etc    */
-  
-  /* get maxima, minima, and variances, and form quartic coefficients  */
-  
-  for (k=1; k<=3; k++) {
-    smink = ssdat[1][k];
-    smaxk = ZERO;
-    
-    for (i=1; i<=5; i++) {
-      smink = MIN(smink,ssdat[i][k]);
-      smaxk = MAX(smaxk,ssdat[i][k]);
-    }
-    
-    if (smink < TINY*smaxk) {
-      kflag = -1;  
-      return(kflag);
-    }
-    smax[k] = smaxk;
-    ssmax[k] = smaxk*smaxk;
-    
-    sumrat = ZERO;
-    sumrsq = ZERO;
-    for (i=1; i<=4; i++) {
-      rat[i][k] = ssdat[i][k]/ssdat[i+1][k];
-      sumrat = sumrat + rat[i][k];
-      sumrsq = sumrsq + rat[i][k]*rat[i][k];
-    } 
-    rav[k] = FOURTH*sumrat;
-    vrat[k] = fabs(FOURTH*sumrsq - rav[k]*rav[k]);
-    
-    qc[5][k] = ssdat[1][k]*ssdat[3][k] - ssdat[2][k]*ssdat[2][k];
-    qc[4][k] = ssdat[2][k]*ssdat[3][k] - ssdat[1][k]*ssdat[4][k];
-    qc[3][k] = ZERO;
-    qc[2][k] = ssdat[2][k]*ssdat[5][k] - ssdat[3][k]*ssdat[4][k];
-    qc[1][k] = ssdat[4][k]*ssdat[4][k] - ssdat[3][k]*ssdat[5][k];
-    
-    for (i=1; i<=5; i++) {
-      qco[i][k] = qc[i][k];
-    }
-  }                            /* End of k loop */
-  
-  /* Isolate normal or nearly-normal matrix case. Three quartic will
-     have common or nearly-common roots in this case. 
-     Return a kflag = 1 if this procedure works. If three root 
-     differ more than vrrt2, return error kflag = -3.    */
-  
-  vmin = MIN(vrat[1],MIN(vrat[2],vrat[3]));
-  vmax = MAX(vrat[1],MAX(vrat[2],vrat[3]));
-  
-  if(vmin < vrrtol*vrrtol) {
-    if (vmax > vrrt2*vrrt2) {
-      kflag = -2;  
-      return(kflag);
-    } else {
-      rr = (rav[1] + rav[2] + rav[3])/THREE;
-      
-      drrmax = ZERO;
-      for(k = 1;k<=3;k++) {
-        adrr = fabs(rav[k] - rr);
-        drrmax = MAX(drrmax, adrr);
-      }
-      
-      kflag = 1;
-
-      /*  can compute charactistic root, drop to next section   */
-      
-    }
-  } else {
-
-    /* use the quartics to get rr. */
-    
-    if (fabs(qco[1][1]) < TINY*ssmax[1]) {
-      kflag = -4;    
-      return(kflag);
-    }
-    
-    tem = qco[1][2]/qco[1][1];
-    for(i=2; i<=5; i++) {
-      qco[i][2] = qco[i][2] - tem*qco[i][1];
-    }
-
-    qco[1][2] = ZERO;
-    tem = qco[1][3]/qco[1][1];
-    for(i=2; i<=5; i++) {
-      qco[i][3] = qco[i][3] - tem*qco[i][1];
-    }
-    qco[1][3] = ZERO;
-    
-    if (fabs(qco[2][2]) < TINY*ssmax[2]) {
-      kflag = -4;    
-      return(kflag);
-    }
-    
-    tem = qco[2][3]/qco[2][2];
-    for(i=3; i<=5; i++) {
-      qco[i][3] = qco[i][3] - tem*qco[i][2];
-    }
-    
-    if (fabs(qco[4][3]) < TINY*ssmax[3]) {
-      kflag = -4;    
-      return(kflag);
-    }
-    
-    rr = -qco[5][3]/qco[4][3];
-    
-    if (rr < TINY || rr > HUN) {
-      kflag = -5;   
-      return(kflag);
-    }
-    
-    for(k=1; k<=3; k++) {
-      qkr[k] = qc[5][k] + rr*(qc[4][k] + rr*rr*(qc[2][k] + rr*qc[1][k]));
-    }  
-    
-    sqmax = ZERO;
-    for(k=1; k<=3; k++) {
-      saqk = fabs(qkr[k])/ssmax[k];
-      if (saqk > sqmax) sqmax = saqk;
-    } 
-    
-    if (sqmax < sqtol) {
-      kflag = 2;
-      
-      /*  can compute charactistic root, drop to "given rr,etc"   */
-      
-    } else {
-
-      /* do Newton corrections to improve rr.  */
-      
-      for(it=1; it<=3; it++) {
-        for(k=1; k<=3; k++) {
-          qp = qc[4][k] + rr*rr*(THREE*qc[2][k] + rr*FOUR*qc[1][k]);
-          drr[k] = ZERO;
-          if (fabs(qp) > TINY*ssmax[k]) drr[k] = -qkr[k]/qp;
-          rrc[k] = rr + drr[k];
-        } 
-        
-        for(k=1; k<=3; k++) {
-          s = rrc[k];
-          sqmaxk = ZERO;
-          for(j=1; j<=3; j++) {
-            qjk[j][k] = qc[5][j] + s*(qc[4][j] + 
-                                      s*s*(qc[2][j] + s*qc[1][j]));
-            saqj = fabs(qjk[j][k])/ssmax[j];
-            if (saqj > sqmaxk) sqmaxk = saqj;
-          } 
-          sqmx[k] = sqmaxk;
-        } 
-
-        sqmin = sqmx[1]; kmin = 1;
-        for(k=2; k<=3; k++) {
-          if (sqmx[k] < sqmin) {
-            kmin = k;
-            sqmin = sqmx[k];
-          }
-        } 
-        rr = rrc[kmin];
-        
-        if (sqmin < sqtol) {
-          kflag = 3;
-          /*  can compute charactistic root   */
-          /*  break out of Newton correction loop and drop to "given rr,etc" */ 
-          break;
-        } else {
-          for(j=1; j<=3; j++) {
-            qkr[j] = qjk[j][kmin];
-          }
-        }     
-      }          /*  end of Newton correction loop  */ 
-      
-      if (sqmin > sqtol) {
-        kflag = -6;
-        return(kflag);
-      }
-    }     /*  end of if (sqmax < sqtol) else   */
-  }      /*  end of if(vmin < vrrtol*vrrtol) else, quartics to get rr. */
-  
-  /* given rr, find sigsq[k] and verify rr.  */
-  /* All positive kflag drop to this section  */
-  
-  for(k=1; k<=3; k++) {
-    rsa = ssdat[1][k];
-    rsb = ssdat[2][k]*rr;
-    rsc = ssdat[3][k]*rr*rr;
-    rsd = ssdat[4][k]*rr*rr*rr;
-    rd1a = rsa - rsb;
-    rd1b = rsb - rsc;
-    rd1c = rsc - rsd;
-    rd2a = rd1a - rd1b;
-    rd2b = rd1b - rd1c;
-    rd3a = rd2a - rd2b;
-    
-    if (fabs(rd1b) < TINY*smax[k]) {
-      kflag = -7;
-      return(kflag);
-    }
-    
-    cest1 = -rd3a/rd1b;
-    if (cest1 < TINY || cest1 > FOUR) {
-      kflag = -7;
-      return(kflag);
-    }
-    corr1 = (rd2b/cest1)/(rr*rr);
-    sigsq[k] = ssdat[3][k] + corr1;
-  }
-  
-  if (sigsq[2] < TINY) {
-    kflag = -8;
-    return(kflag);
-  }
-  
-  ratp = sigsq[3]/sigsq[2];
-  ratm = sigsq[1]/sigsq[2];
-  qfac1 = FOURTH*(q*q - ONE);
-  qfac2 = TWO/(q - ONE);
-  bb = ratp*ratm - ONE - qfac1*ratp;
-  tem = ONE - qfac2*bb;
-  
-  if (fabs(tem) < TINY) {
-    kflag = -8;
-    return(kflag);
-  }
-  
-  rrb = ONE/tem;
-  
-  if (fabs(rrb - rr) > rrtol) {
-    kflag = -9;
-    return(kflag);
-  }
-  
-  /* Check to see if rr is above cutoff rrcut  */
-  if (rr > rrcut) {
-    if (kflag == 1) kflag = 4;
-    if (kflag == 2) kflag = 5;
-    if (kflag == 3) kflag = 6;
-  }
-  
-  /* All positive kflag returned at this point  */
-  
-  return(kflag);
-  
-}
 
 /* 
  * =================================================================

@@ -47,7 +47,6 @@
 extern "C" {
 #endif
 
-#include "sundials_types.h"
 
 /*
  * -----------------------------------------------------------------
@@ -83,14 +82,8 @@ struct _generic_N_Vector_Ops {
   double    (*nvdotprod)(N_Vector, N_Vector);
   double    (*nvmaxnorm)(N_Vector);
   double    (*nvwrmsnorm)(N_Vector, N_Vector);
-  double    (*nvwrmsnormmask)(N_Vector, N_Vector, N_Vector);
   double    (*nvmin)(N_Vector);
-  double    (*nvwl2norm)(N_Vector, N_Vector);
-  double    (*nvl1norm)(N_Vector);
   void        (*nvcompare)(double, N_Vector, N_Vector);
-  booleantype (*nvinvtest)(N_Vector, N_Vector);
-  booleantype (*nvconstrmask)(N_Vector, N_Vector, N_Vector);
-  double    (*nvminquotient)(N_Vector, N_Vector);
 };
 
 /*
@@ -337,9 +330,6 @@ SUNDIALS_EXPORT double N_VMin(N_Vector x);
 SUNDIALS_EXPORT double N_VWL2Norm(N_Vector x, N_Vector w);
 SUNDIALS_EXPORT double N_VL1Norm(N_Vector x);
 SUNDIALS_EXPORT void N_VCompare(double c, N_Vector x, N_Vector z);
-SUNDIALS_EXPORT booleantype N_VInvTest(N_Vector x, N_Vector z);
-SUNDIALS_EXPORT booleantype N_VConstrMask(N_Vector c, N_Vector x, N_Vector m);
-SUNDIALS_EXPORT double N_VMinQuotient(N_Vector num, N_Vector denom);
 
 /*
  * -----------------------------------------------------------------
@@ -364,7 +354,6 @@ SUNDIALS_EXPORT double N_VMinQuotient(N_Vector num, N_Vector denom);
  * -----------------------------------------------------------------
  */
 #include <math.h>
-#include "sundials_types.h"
 
     
 #ifndef MIN

@@ -45,8 +45,6 @@ extern "C" {
 
 typedef struct CVDlsMemRec {
 
-  int d_type;             /* SUNDIALS_DENSE or SUNDIALS_BAND              */
-
   long int d_n;           /* problem dimension                            */
 
   long int d_ml;          /* lower bandwidth of Jacobian                  */

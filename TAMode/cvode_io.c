@@ -190,33 +190,6 @@ int CVodeSetMaxHnilWarns(void *cvode_mem, int mxhnil)
 }
 
 /* 
- *CVodeSetStabLimDet
- *
- * Turns on/off the stability limit detection algorithm
- */
-
-int CVodeSetStabLimDet(void *cvode_mem, int sldet)
-{
-  CVodeMem cv_mem;
-
-  if (cvode_mem==NULL) {
-    CVProcessError(NULL, CV_MEM_NULL, "CVODE", "CVodeSetStabLimDet", MSGCV_NO_MEM);
-    return(CV_MEM_NULL);
-  }
-
-  cv_mem = (CVodeMem) cvode_mem;
-
-  if( sldet && (cv_mem->cv_lmm != CV_BDF) ) {
-    CVProcessError(cv_mem, CV_ILL_INPUT, "CVODE", "CVodeSetStabLimDet", MSGCV_SET_SLDET);
-    return(CV_ILL_INPUT);
-  }
-
-  cv_mem->cv_sldeton = sldet;
-
-  return(CV_SUCCESS);
-}
-
-/* 
  * CVodeSetInitStep
  *
  * Specifies the initial step size
@@ -662,31 +635,7 @@ int CVodeGetCurrentOrder(void *cvode_mem, int *qcur)
   return(CV_SUCCESS);
 }
 
-/* 
- * CVodeGetNumStabLimOrderReds
- *
- * Returns the number of order reductions triggered by the stability
- * limit detection algorithm
- */
 
-int CVodeGetNumStabLimOrderReds(void *cvode_mem, long int *nslred)
-{
-  CVodeMem cv_mem;
-
-  if (cvode_mem==NULL) {
-    CVProcessError(NULL, CV_MEM_NULL, "CVODE", "CVodeGetNumStabLimOrderReds", MSGCV_NO_MEM);
-    return(CV_MEM_NULL);
-  }
-
-  cv_mem = (CVodeMem) cvode_mem;
-
-  if (sldeton==FALSE)
-    *nslred = 0;
-  else
-    *nslred = nor;
-
-  return(CV_SUCCESS);
-}
 
 /* 
  * CVodeGetActualInitStep

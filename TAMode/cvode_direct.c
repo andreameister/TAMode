@@ -247,26 +247,23 @@ int CVDlsGetLastFlag(void *cvode_mem, long int *flag)
  * -----------------------------------------------------------------
  */ 
 
-int cvDlsDenseDQJac(long int N, double t,
+int cvDlsDenseDQJac(const long int N, const double t,
                     N_Vector y, N_Vector fy, 
                     DlsMat Jac, void *data,
                     N_Vector tmp1, N_Vector tmp2, __attribute__((unused)) N_Vector tmp3)
 {
-  double fnorm, minInc, inc, inc_inv, yjsaved, srur;
-  double *tmp2_data, *y_data, *ewt_data;
+  double minInc, inc, inc_inv, yjsaved;
+  double *y_data, *ewt_data;
   N_Vector ftemp, jthCol;
   long int j;
   int retval = 0;
 
-  CVodeMem cv_mem;
-  CVDlsMem cvdls_mem;
-
   /* data points to cvode_mem */
-  cv_mem = (CVodeMem) data;
-  cvdls_mem = (CVDlsMem) lmem;
+  CVodeMem cv_mem = (CVodeMem) data;
+  CVDlsMem cvdls_mem = (CVDlsMem) lmem;
 
   /* Save pointer to the array in tmp2 */
-  tmp2_data = N_VGetArrayPointer(tmp2);
+  double * const tmp2_data = N_VGetArrayPointer(tmp2);
 
   /* Rename work vectors for readibility */
   ftemp = tmp1; 
@@ -277,8 +274,8 @@ int cvDlsDenseDQJac(long int N, double t,
   y_data   = N_VGetArrayPointer(y);
 
   /* Set minimum increment based on uround and norm of f */
-  srur = RSqrt(uround);
-  fnorm = N_VWrmsNorm(fy, ewt);
+  const double srur = RSqrt(uround);
+  const double fnorm = N_VWrmsNorm(fy, ewt);
   minInc = (fnorm != ZERO) ?
            (MIN_INC_MULT * fabs(h) * uround * N * fnorm) : ONE;
 

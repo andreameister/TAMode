@@ -34,7 +34,7 @@
  *     header file sundials_types.h, and it may be changed (at the 
  *     configuration stage) according to the user's needs. 
  *     The sundials_types.h file also contains the definition
- *     for the type 'booleantype'.
+ *     for the type 'int'.
  *
  *   - N_Vector arguments to arithmetic vector operations need not
  *     be distinct. For example, the following call:
@@ -68,7 +68,7 @@ extern "C" {
 
 struct _N_VectorContent_Serial {
   long int length;
-  booleantype own_data;
+  int own_data;
   double *data;
 };
 
@@ -254,8 +254,8 @@ SUNDIALS_EXPORT double N_VMin_Serial(N_Vector x);
 SUNDIALS_EXPORT double N_VWL2Norm_Serial(N_Vector x, N_Vector w);
 SUNDIALS_EXPORT double N_VL1Norm_Serial(N_Vector x);
 SUNDIALS_EXPORT void N_VCompare_Serial(double c, N_Vector x, N_Vector z);
-SUNDIALS_EXPORT booleantype N_VInvTest_Serial(N_Vector x, N_Vector z);
-SUNDIALS_EXPORT booleantype N_VConstrMask_Serial(N_Vector c, N_Vector x, N_Vector m);
+SUNDIALS_EXPORT int N_VInvTest_Serial(N_Vector x, N_Vector z);
+SUNDIALS_EXPORT int N_VConstrMask_Serial(N_Vector c, N_Vector x, N_Vector m);
 SUNDIALS_EXPORT double N_VMinQuotient_Serial(N_Vector num, N_Vector denom);
 
 #ifdef __cplusplus

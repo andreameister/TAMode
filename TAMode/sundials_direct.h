@@ -27,20 +27,6 @@ extern "C" {
 #include <float.h>
 
 /*
- * =================================================================
- *                C O N S T A N T S
- * =================================================================
- */
-
-/*
- *  SUNDIALS_DENSE: dense matrix
- *  SUNDIALS_BAND:  banded matrix
- */
-
-#define SUNDIALS_DENSE 1
-#define SUNDIALS_BAND  2
-
-/*
  * ==================================================================
  * Type definitions
  * ==================================================================
@@ -59,7 +45,6 @@ extern "C" {
  * stores the pointers in data for the beginning of each column.
  * -----------------------------------------------------------------
  * For DENSE matrices, the relevant fields in DlsMat are:
- *    type  = SUNDIALS_DENSE
  *    M     - number of rows
  *    N     - number of columns
  *    ldim  - leading dimension (ldim >= M)
@@ -180,7 +165,7 @@ typedef struct _DlsMat {
 DlsMat NewDenseMat(unsigned int M, unsigned int N);
 void DestroyMat(DlsMat A);
 int *NewIntArray(int N);
-long int *NewLintArray(long int N);
+long int *NewLintArray(unsigned long int N);
 double *NewRealArray(long int N);
 void DestroyArray(void *p);
 void AddIdentity(DlsMat A);

@@ -48,9 +48,11 @@ static void cvDenseFree(CVodeMem cv_mem);
  * Functions working on DlsMat
  * -----------------------------------------------------
  */
-static long int denseGETRF(double **a, unsigned int m, unsigned int n, long int *p) {
+static long int denseGETRF(double ** const a, const unsigned int m, const unsigned int n, long int * const p) {
     double *col_j, *col_k;
     double temp, mult, a_kj;
+    unsigned int l, i, j;
+    
     
     /* k-th elimination step number */
     for (unsigned int k=0; k < n; k++) {
@@ -58,8 +60,8 @@ static long int denseGETRF(double **a, unsigned int m, unsigned int n, long int 
         col_k  = a[k];
         
         /* find l = pivot row number */
-        unsigned int l = k;
-        for (unsigned int i=k+1; i < m; i++)
+        l = k;
+        for (i=k+1; i < m; i++)
             if (fabs(col_k[i]) > fabs(col_k[l])) l=i;
         p[k] = l;
         
@@ -68,37 +70,24 @@ static long int denseGETRF(double **a, unsigned int m, unsigned int n, long int 
         
         /* swap a(k,1:n) and a(l,1:n) if necessary */
         if ( l!= k ) {
-            for (unsigned int i=0; i<n; i++) {
+            for (i=0; i<n; i++) {
                 temp = a[i][l];
                 a[i][l] = a[i][k];
                 a[i][k] = temp;
             }
         }
         
-        /* Scale the elements below the diagonal in
-         * column k by 1.0/a(k,k). After the above swap
-         * a(k,k) holds the pivot element. This scaling
-         * stores the pivot row multipliers a(i,k)/a(k,k)
-         * in a(i,k), i=k+1, ..., m-1.
-         */
         mult = ONE/col_k[k];
-        for(unsigned int i=k+1; i < m; i++) col_k[i] *= mult;
         
-        /* row_i = row_i - [a(i,k)/a(k,k)] row_k, i=k+1, ..., m-1 */
-        /* row k is the pivot row after swapping with row l.      */
-        /* The computation is done one column at a time,          */
-        /* column j=k+1, ..., n-1.                                */
+        for(i=k+1; i < m; i++) col_k[i] *= mult;
         
-        for (unsigned int j=k+1; j < n; j++) {
+        for (j=k+1; j < n; j++) {
             
             col_j = a[j];
             a_kj = col_j[k];
             
-            /* a(i,j) = a(i,j) - [a(i,k)/a(k,k)]*a(k,j)  */
-            /* a_kj = a(k,j), col_k[i] = - a(i,k)/a(k,k) */
-            
             if (a_kj != ZERO) {
-                for (unsigned int i=k+1; i < m; i++)
+                for (i=k+1; i < m; i++)
                     col_j[i] -= a_kj * col_k[i];
             }
         }
@@ -109,12 +98,14 @@ static long int denseGETRF(double **a, unsigned int m, unsigned int n, long int 
     return(0);
 }
 
-static void denseGETRS(double **a, unsigned int n, long int *p, double *b) {
+static void denseGETRS(double ** const a, const unsigned int n, long int * const p, double * const b) {
     double *col_k, tmp;
+    unsigned int i;
+    unsigned int pk;
     
     /* Permute b, based on pivot information in p */
     for (unsigned int k=0; k<n; k++) {
-        long int pk = p[k];
+        pk = (unsigned int) p[k];
         if(pk != k) {
             tmp = b[k];
             b[k] = b[pk];
@@ -125,24 +116,24 @@ static void denseGETRS(double **a, unsigned int n, long int *p, double *b) {
     /* Solve Ly = b, store solution y in b */
     for (unsigned int k=0; k<n-1; k++) {
         col_k = a[k];
-        for (unsigned int i=k+1; i<n; i++) b[i] -= col_k[i]*b[k];
+        for (i=k+1; i<n; i++) b[i] -= col_k[i]*b[k];
     }
     
     /* Solve Ux = y, store solution x in b */
-    for (unsigned int k = (unsigned int) n-1; k > 0; k--) {
+    for (unsigned int k = n-1; k > 0; k--) {
         col_k = a[k];
         b[k] /= col_k[k];
-        for (unsigned int i=0; i<k; i++) b[i] -= col_k[i]*b[k];
+        for (i=0; i<k; i++) b[i] -= col_k[i]*b[k];
     }
     b[0] /= a[0][0];
 }
 
-static void denseCopy(double **a, double **b, long int m, long int n)
+static void denseCopy(double ** const a, double ** const b, const unsigned int m, const unsigned int n)
 {
-    long int i, j;
+    unsigned int i;
     double *a_col_j, *b_col_j;
     
-    for (j=0; j < n; j++) {
+    for (size_t j=0; j < n; j++) {
         a_col_j = a[j];
         b_col_j = b[j];
         for (i=0; i < m; i++)
@@ -151,32 +142,29 @@ static void denseCopy(double **a, double **b, long int m, long int n)
     
 }
 
-static void denseScale(double c, double **a, long int m, long int n)
+static void denseScale(const double c, double ** const a, const long int m, const long int n)
 {
-    long int i, j;
+    long int i;
     double *col_j;
     
-    for (j=0; j < n; j++) {
+    for (size_t j=0; j < n; j++) {
         col_j = a[j];
         for (i=0; i < m; i++)
             col_j[i] *= c;
     }
 }
 
-static void denseAddIdentity(double **a, long int n)
-{
-    long int i;
-    
-    for (i=0; i < n; i++) a[i][i] += ONE;
+static void denseAddIdentity(double ** const a, const unsigned int n) {
+    for (size_t i=0; i < n; i++) a[i][i] += 1.0;
 }
 
 
-static long int DenseGETRF(DlsMat A, long int *p)
+static long int DenseGETRF(DlsMat A, long int * const p)
 {
     return(denseGETRF(A->cols, A->M, A->N, p));
 }
 
-static void DenseGETRS(DlsMat A, long int *p, double *b)
+static void DenseGETRS(DlsMat A, long int * const p, double * const b)
 {
     denseGETRS(A->cols, A->N, p, b);
 }
@@ -186,7 +174,7 @@ static void DenseCopy(DlsMat A, DlsMat B)
     denseCopy(A->cols, B->cols, A->M, A->N);
 }
 
-static void DenseScale(double c, DlsMat A)
+static void DenseScale(const double c, DlsMat A)
 {
     denseScale(c, A->cols, A->M, A->N);
 }
@@ -250,17 +238,14 @@ static void DenseScale(double c, DlsMat A)
  * -----------------------------------------------------------------
  */
 
-int CVDense(void *cvode_mem, long int N)
+int CVDense(void *cvode_mem, const long int N)
 {
-  CVodeMem cv_mem;
-  CVDlsMem cvdls_mem;
-
   /* Return immediately if cvode_mem is NULL */
   if (cvode_mem == NULL) {
     CVProcessError(NULL, CVDLS_MEM_NULL, "CVDENSE", "CVDense", MSGD_CVMEM_NULL);
     return(CVDLS_MEM_NULL);
   }
-  cv_mem = (CVodeMem) cvode_mem;
+  CVodeMem cv_mem = (CVodeMem) cvode_mem;
 
   /* Test if the NVECTOR package is compatible with the DENSE solver */
   if (vec_tmpl->ops->nvgetarraypointer == NULL ||
@@ -278,15 +263,11 @@ int CVDense(void *cvode_mem, long int N)
   lfree  = cvDenseFree;
 
   /* Get memory for CVDlsMemRec */
-  cvdls_mem = NULL;
-  cvdls_mem = (CVDlsMem) malloc(sizeof(struct CVDlsMemRec));
+  CVDlsMem cvdls_mem = (CVDlsMem) malloc(sizeof(struct CVDlsMemRec));
   if (cvdls_mem == NULL) {
     CVProcessError(cv_mem, CVDLS_MEM_FAIL, "CVDENSE", "CVDense", MSGD_MEM_FAIL);
     return(CVDLS_MEM_FAIL);
   }
-
-  /* Set matrix type */
-  mtype = SUNDIALS_DENSE;
 
   /* Initialize Jacobian-related data */
   jacDQ = TRUE;
@@ -302,7 +283,6 @@ int CVDense(void *cvode_mem, long int N)
 
   /* Allocate memory for M, savedJ, and pivot array */
 
-  M = NULL;
   M = NewDenseMat((unsigned int) N, (unsigned int) N);
   if (M == NULL) {
     CVProcessError(cv_mem, CVDLS_MEM_FAIL, "CVDENSE", "CVDense", MSGD_MEM_FAIL);
@@ -318,7 +298,7 @@ int CVDense(void *cvode_mem, long int N)
     return(CVDLS_MEM_FAIL);
   }
   lpivots = NULL;
-  lpivots = NewLintArray(N);
+  lpivots = NewLintArray((unsigned int) N);
   if (lpivots == NULL) {
     CVProcessError(cv_mem, CVDLS_MEM_FAIL, "CVDENSE", "CVDense", MSGD_MEM_FAIL);
     DestroyMat(M);
@@ -344,9 +324,7 @@ int CVDense(void *cvode_mem, long int N)
 
 static int cvDenseInit(CVodeMem cv_mem)
 {
-  CVDlsMem cvdls_mem;
-
-  cvdls_mem = (CVDlsMem) lmem;
+  CVDlsMem cvdls_mem = (CVDlsMem) lmem;
   
   nje   = 0;
   nfeDQ = 0;
@@ -377,8 +355,8 @@ static int cvDenseInit(CVodeMem cv_mem)
  * -----------------------------------------------------------------
  */
 
-static int cvDenseSetup(CVodeMem cv_mem, int convfail, N_Vector ypred,
-                        N_Vector fpred, int *jcurPtr, 
+static int cvDenseSetup(CVodeMem cv_mem, const int convfail, N_Vector ypred,
+                        N_Vector fpred, int * const jcurPtr,
                         N_Vector vtemp1, N_Vector vtemp2, N_Vector vtemp3)
 {
   int jbad, jok;
@@ -449,12 +427,9 @@ static int cvDenseSetup(CVodeMem cv_mem, int convfail, N_Vector ypred,
 
 static int cvDenseSolve(CVodeMem cv_mem, N_Vector b, N_Vector __attribute__((unused)) weight,
                         __attribute__((unused)) N_Vector ycur, __attribute__((unused)) N_Vector fcur) {
-  CVDlsMem cvdls_mem;
-  double *bd;
-
-  cvdls_mem = (CVDlsMem) lmem;
+  CVDlsMem cvdls_mem = (CVDlsMem) lmem;
   
-  bd = N_VGetArrayPointer(b);
+  double * const bd = N_VGetArrayPointer(b);
 
   DenseGETRS(M, lpivots, bd);
 
@@ -477,9 +452,7 @@ static int cvDenseSolve(CVodeMem cv_mem, N_Vector b, N_Vector __attribute__((unu
 
 static void cvDenseFree(CVodeMem cv_mem)
 {
-  CVDlsMem  cvdls_mem;
-
-  cvdls_mem = (CVDlsMem) lmem;
+  CVDlsMem cvdls_mem = (CVDlsMem) lmem;
   
   DestroyMat(M);
   DestroyMat(savedJ);

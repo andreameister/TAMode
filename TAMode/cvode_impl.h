@@ -236,7 +236,6 @@ typedef struct CVodeMemRec {
     Stability Limit Detection
     -------------------------*/
 
-  int cv_sldeton;     /* is Stability Limit Detection on?             */
   double cv_ssdat[6][4];    /* scaled data array for STALD                  */
   int cv_nscon;               /* counter for STALD method                     */
   long int cv_nor;            /* counter for number of order reductions       */

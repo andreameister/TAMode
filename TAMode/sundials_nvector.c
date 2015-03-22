@@ -20,8 +20,8 @@
 
 #include "sundials_nvector.h"
 
-#define ZERO RCONST(0.0)
-#define ONE  RCONST(1.0)
+#define ZERO (0.0)
+#define ONE  (1.0)
 
 /*
  * -----------------------------------------------------------------
@@ -159,45 +159,15 @@ double N_VWrmsNorm(N_Vector x, N_Vector w)
   return((double) x->ops->nvwrmsnorm(x, w));
 }
 
-double N_VWrmsNormMask(N_Vector x, N_Vector w, N_Vector id)
-{
-  return((double) x->ops->nvwrmsnormmask(x, w, id));
-}
-
 double N_VMin(N_Vector x)
 {
   return((double) x->ops->nvmin(x));
-}
-
-double N_VWL2Norm(N_Vector x, N_Vector w)
-{
-  return((double) x->ops->nvwl2norm(x, w));
-}
-
-double N_VL1Norm(N_Vector x)
-{
-  return((double) x->ops->nvl1norm(x));
 }
 
 void N_VCompare(double c, N_Vector x, N_Vector z)
 {
   z->ops->nvcompare(c, x, z);
   return;
-}
-
-booleantype N_VInvTest(N_Vector x, N_Vector z)
-{
-  return((booleantype) z->ops->nvinvtest(x, z));
-}
-
-booleantype N_VConstrMask(N_Vector c, N_Vector x, N_Vector m)
-{
-  return((booleantype) x->ops->nvconstrmask(c, x, m));
-}
-
-double N_VMinQuotient(N_Vector num, N_Vector denom)
-{
-  return((double) num->ops->nvminquotient(num, denom));
 }
 
 /*
