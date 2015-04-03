@@ -283,7 +283,7 @@ SUNDIALS_EXPORT void *CVodeCreate(int lmm, int iter);
  *                         | time f is called.
  *                         | [NULL]
  *                         |
- * CVodeSetMaxOrd          | maximum lmm order to be used by the
+ *           | maximum lmm order to be used by the
  *                         | solver.
  *                         | [12 for Adams , 5 for BDF]
  *                         |
@@ -317,10 +317,6 @@ SUNDIALS_EXPORT void *CVodeCreate(int lmm, int iter);
  *                         | allowed.
  *                         | [infinity]
  *                         |
- * CVodeSetStopTime        | the independent variable value past
- *                         | which the solution is not to proceed.
- *                         | [infinity]
- *                         |
  * CVodeSetMaxErrTestFails | Maximum number of error test failures
  *                         | in attempting one step.
  *                         | [7]
@@ -333,9 +329,6 @@ SUNDIALS_EXPORT void *CVodeCreate(int lmm, int iter);
  *                         | allowed in attempting one step.
  *                         | [10]
  *                         |
- * CVodeSetNonlinConvCoef  | Coefficient in the nonlinear
- *                         | convergence test.
- *                         | [0.1]
  *                         |
  * -----------------------------------------------------------------
  *                         |
@@ -343,15 +336,6 @@ SUNDIALS_EXPORT void *CVodeCreate(int lmm, int iter);
  *                         | type.
  *                         | [set by CVodecreate]
  *                         |
- * -----------------------------------------------------------------
- *                            |
- * CVodeSetRootDirection      | Specifies the direction of zero
- *                            | crossings to be monitored
- *                            | [both directions]
- *                            |
- * CVodeSetNoInactiveRootWarn | disable warning about possible
- *                            | g==0 at beginning of integration
- *                            | 
  * -----------------------------------------------------------------
 
  * -----------------------------------------------------------------
@@ -365,21 +349,9 @@ SUNDIALS_EXPORT void *CVodeCreate(int lmm, int iter);
 SUNDIALS_EXPORT int CVodeSetErrHandlerFn(void *cvode_mem, CVErrHandlerFn ehfun, void *eh_data);
 SUNDIALS_EXPORT int CVodeSetErrFile(void *cvode_mem, FILE *errfp);
 SUNDIALS_EXPORT int CVodeSetUserData(void *cvode_mem, void *user_data);
-SUNDIALS_EXPORT int CVodeSetMaxOrd(void *cvode_mem, int maxord);
 SUNDIALS_EXPORT int CVodeSetMaxNumSteps(void *cvode_mem, long int mxsteps);
 SUNDIALS_EXPORT int CVodeSetMaxHnilWarns(void *cvode_mem, int mxhnil);
-SUNDIALS_EXPORT int CVodeSetStabLimDet(void *cvode_mem, int stldet);
 SUNDIALS_EXPORT int CVodeSetInitStep(void *cvode_mem, double hin);
-SUNDIALS_EXPORT int CVodeSetMinStep(void *cvode_mem, double hmin);
-SUNDIALS_EXPORT int CVodeSetMaxStep(void *cvode_mem, double hmax);
-SUNDIALS_EXPORT int CVodeSetStopTime(void *cvode_mem, double tstop);
-SUNDIALS_EXPORT int CVodeSetMaxErrTestFails(void *cvode_mem, int maxnef);
-SUNDIALS_EXPORT int CVodeSetMaxNonlinIters(void *cvode_mem, int maxcor);
-SUNDIALS_EXPORT int CVodeSetMaxConvFails(void *cvode_mem, int maxncf);
-SUNDIALS_EXPORT int CVodeSetNonlinConvCoef(void *cvode_mem, double nlscoef);
-
-SUNDIALS_EXPORT int CVodeSetRootDirection(void *cvode_mem, int *rootdir);
-SUNDIALS_EXPORT int CVodeSetNoInactiveRootWarn(void *cvode_mem);
 
 /*
  * -----------------------------------------------------------------
@@ -530,10 +502,10 @@ SUNDIALS_EXPORT int CVodeRootInit(void *cvode_mem, int nrtfn, CVRootFn g);
  * y at the new internal time. In this case, tout is used only
  * during the first call to CVode to determine the direction of
  * integration and the rough scale of the t variable. If tstop is
- * enabled (through a call to CVodeSetStopTime), then CVode returns
+ * enabled (through a call to ), then CVode returns
  * the solution at tstop. Once the integrator returns at a tstop
  * time, any future testing for tstop is disabled (and can be 
- * reenabled only though a new call to CVodeSetStopTime).
+ * reenabled only though a new call to ).
  * The time reached by the solver is placed in (*tret). The
  * user is responsible for allocating the memory for this value.
  *
@@ -668,9 +640,6 @@ SUNDIALS_EXPORT int CVodeGetDky(void *cvode_mem, double t, int k, N_Vector dky);
  *                   internal step
  * CVodeGetCurrentOrder returns the order to be used on the next
  *                      internal step
- * CVodeGetNumStabLimOrderReds returns the number of order
- *                             reductions due to stability limit
- *                             detection
  * CVodeGetActualInitStep returns the actual initial step size
  *                        used by CVODE
  * CVodeGetLastStep returns the step size for the last internal
@@ -709,7 +678,6 @@ SUNDIALS_EXPORT int CVodeGetNumLinSolvSetups(void *cvode_mem, long int *nlinsetu
 SUNDIALS_EXPORT int CVodeGetNumErrTestFails(void *cvode_mem, long int *netfails);
 SUNDIALS_EXPORT int CVodeGetLastOrder(void *cvode_mem, int *qlast);
 SUNDIALS_EXPORT int CVodeGetCurrentOrder(void *cvode_mem, int *qcur);
-SUNDIALS_EXPORT int CVodeGetNumStabLimOrderReds(void *cvode_mem, long int *nslred);
 SUNDIALS_EXPORT int CVodeGetActualInitStep(void *cvode_mem, double *hinused);
 SUNDIALS_EXPORT int CVodeGetLastStep(void *cvode_mem, double *hlast);
 SUNDIALS_EXPORT int CVodeGetCurrentStep(void *cvode_mem, double *hcur);

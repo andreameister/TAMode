@@ -247,15 +247,12 @@ int CVDlsGetLastFlag(void *cvode_mem, long int *flag)
  * -----------------------------------------------------------------
  */ 
 
-int cvDlsDenseDQJac(const long int N, const double t,
-                    N_Vector y, N_Vector fy, 
-                    DlsMat Jac, void *data,
+int cvDlsDenseDQJac(const long int N, const double t, N_Vector y, N_Vector fy,
+                    DlsMat Jac, void * const data,
                     N_Vector tmp1, N_Vector tmp2, __attribute__((unused)) N_Vector tmp3)
 {
-  double minInc, inc, inc_inv, yjsaved;
-  double *y_data, *ewt_data;
+  double inc, inc_inv, yjsaved;
   N_Vector ftemp, jthCol;
-  long int j;
   int retval = 0;
 
   /* data points to cvode_mem */
@@ -270,16 +267,16 @@ int cvDlsDenseDQJac(const long int N, const double t,
   jthCol = tmp2;
 
   /* Obtain pointers to the data for ewt, y */
-  ewt_data = N_VGetArrayPointer(ewt);
-  y_data   = N_VGetArrayPointer(y);
+  double * const ewt_data = N_VGetArrayPointer(ewt);
+  double * const y_data   = N_VGetArrayPointer(y);
 
   /* Set minimum increment based on uround and norm of f */
   const double srur = RSqrt(uround);
   const double fnorm = N_VWrmsNorm(fy, ewt);
-  minInc = (fnorm != ZERO) ?
+  const double minInc = (fnorm != ZERO) ?
            (MIN_INC_MULT * fabs(h) * uround * N * fnorm) : ONE;
 
-  for (j = 0; j < N; j++) {
+  for (size_t j = 0; j < N; j++) {
 
     /* Generate the jth col of J(tn,y) */
 

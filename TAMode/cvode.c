@@ -428,12 +428,9 @@ void *CVodeCreate(int lmm, int iter)
  * errfp and an error flag is returned. Otherwise, it returns CV_SUCCESS
  */
 
-int CVodeInit(void *cvode_mem, CVRhsFn f, double t0, N_Vector y0)
+int CVodeInit(void * const cvode_mem, CVRhsFn f, const double t0, N_Vector y0)
 {
-  CVodeMem cv_mem;
-  int nvectorOK, allocOK;
   long int lrw1, liw1;
-  int i,k;
 
   /* Check cvode_mem */
 
@@ -441,7 +438,7 @@ int CVodeInit(void *cvode_mem, CVRhsFn f, double t0, N_Vector y0)
     CVProcessError(NULL, CV_MEM_NULL, "CVODE", "CVodeInit", MSGCV_NO_MEM);
     return(CV_MEM_NULL);
   }
-  cv_mem = (CVodeMem) cvode_mem;
+  CVodeMem cv_mem = (CVodeMem) cvode_mem;
 
   /* Check for legal input parameters */
 
@@ -457,7 +454,7 @@ int CVodeInit(void *cvode_mem, CVRhsFn f, double t0, N_Vector y0)
 
   /* Test if all required vector operations are implemented */
 
-  nvectorOK = CVCheckNvector(y0);
+  const int nvectorOK = CVCheckNvector(y0);
   if(!nvectorOK) {
     CVProcessError(cv_mem, CV_ILL_INPUT, "CVODE", "CVodeInit", MSGCV_BAD_NVECTOR);
     return(CV_ILL_INPUT);
@@ -476,7 +473,7 @@ int CVodeInit(void *cvode_mem, CVRhsFn f, double t0, N_Vector y0)
 
   /* Allocate the vectors (using y0 as a template) */
 
-  allocOK = CVAllocVectors(cv_mem, y0);
+  const int allocOK = CVAllocVectors(cv_mem, y0);
   if (!allocOK) {
     CVProcessError(cv_mem, CV_MEM_FAIL, "CVODE", "CVodeInit", MSGCV_MEM_FAIL);
     return(CV_MEM_FAIL);
@@ -523,7 +520,6 @@ int CVodeInit(void *cvode_mem, CVRhsFn f, double t0, N_Vector y0)
   cv_mem->cv_nsetups = 0;
   cv_mem->cv_nhnil   = 0;
   cv_mem->cv_nstlp   = 0;
-  cv_mem->cv_nscon   = 0;
   cv_mem->cv_nge     = 0;
 
   cv_mem->cv_irfnd   = 0;
@@ -533,16 +529,6 @@ int CVodeInit(void *cvode_mem, CVRhsFn f, double t0, N_Vector y0)
   cv_mem->cv_h0u      = 0.0;
   cv_mem->cv_next_h   = 0.0;
   cv_mem->cv_next_q   = 0;
-
-  /* Initialize Stablilty Limit Detection data */
-  /* NOTE: We do this even if stab lim det was not
-     turned on yet. This way, the user can turn it
-     on at any time */
-
-  cv_mem->cv_nor = 0;
-  for (i = 1; i <= 5; i++)
-    for (k = 1; k <= 3; k++) 
-      cv_mem->cv_ssdat[i-1][k-1] = ZERO;
 
   /* Problem has been successfully initialized */
 
@@ -573,7 +559,6 @@ int CVodeInit(void *cvode_mem, CVRhsFn f, double t0, N_Vector y0)
 int CVodeReInit(void *cvode_mem, double t0, N_Vector y0)
 {
   CVodeMem cv_mem;
-  int i,k;
  
   /* Check cvode_mem */
 
@@ -626,7 +611,6 @@ int CVodeReInit(void *cvode_mem, double t0, N_Vector y0)
   cv_mem->cv_nsetups = 0;
   cv_mem->cv_nhnil   = 0;
   cv_mem->cv_nstlp   = 0;
-  cv_mem->cv_nscon   = 0;
   cv_mem->cv_nge     = 0;
 
   cv_mem->cv_irfnd   = 0;
@@ -636,13 +620,6 @@ int CVodeReInit(void *cvode_mem, double t0, N_Vector y0)
   cv_mem->cv_h0u      = ZERO;
   cv_mem->cv_next_h   = ZERO;
   cv_mem->cv_next_q   = 0;
-
-  /* Initialize Stablilty Limit Detection data */
-
-  cv_mem->cv_nor = 0;
-  for (i = 1; i <= 5; i++)
-    for (k = 1; k <= 3; k++) 
-      cv_mem->cv_ssdat[i-1][k-1] = ZERO;
   
   /* Problem has been successfully re-initialized */
 
@@ -994,8 +971,7 @@ int CVodeRootInit(void *cvode_mem, int nrtfn, CVRootFn g)
 #define eta            (cv_mem->cv_eta) 
 #define etaqm1         (cv_mem->cv_etaqm1) 
 #define etaq           (cv_mem->cv_etaq) 
-#define etaqp1         (cv_mem->cv_etaqp1) 
-#define nscon          (cv_mem->cv_nscon)
+#define etaqp1         (cv_mem->cv_etaqp1)
 #define hscale         (cv_mem->cv_hscale)
 #define tn             (cv_mem->cv_tn)
 #define tau            (cv_mem->cv_tau)
@@ -2244,7 +2220,6 @@ static void CVRescale(CVodeMem cv_mem)
   h = hscale * eta;
   next_h = h;
   hscale = h;
-  nscon = 0;
 }
 
 /*
@@ -2812,12 +2787,10 @@ static int CVNewtonIteration(CVodeMem cv_mem)
  *
  */
 
-static int CVHandleNFlag(CVodeMem cv_mem, int *nflagPtr, double saved_t,
+static int CVHandleNFlag(CVodeMem cv_mem, int * const nflagPtr, double saved_t,
                          int *ncfPtr)
 {
-  int nflag;
-  
-  nflag = *nflagPtr;
+  const int nflag = *nflagPtr;
   
   if (nflag == CV_SUCCESS) return(DO_ERROR_TEST);
 
@@ -2944,7 +2917,6 @@ static int CVDoErrorTest(CVodeMem cv_mem, int * const nflagPtr,
   next_h = h;
   hscale = h;
   qwait = LONG_WAIT;
-  nscon = 0;
 
   retval = f(tn, zn[0], tempv, user_data);
   nfe++;
@@ -2977,7 +2949,6 @@ static int CVDoErrorTest(CVodeMem cv_mem, int * const nflagPtr,
 static void CVCompleteStep(CVodeMem cv_mem)
 {
   nst++;
-  nscon++;
   hu = h;
   qu = q;
 
@@ -3056,7 +3027,6 @@ static void CVSetEta(CVodeMem cv_mem)
     eta = MIN(eta, etamax);
     eta /= MAX(ONE, fabs(h)*hmax_inv*eta);
     hprime = h * eta;
-    if (qprime < q) nscon = 0;
   }
   
   /* Reset etamax for the next step size change, and scale acor */
@@ -3212,13 +3182,6 @@ static int CVHandleFailure(CVodeMem cv_mem, int flag)
   return(flag);
 
 }
-
-/* 
- * =================================================================
- * BDF Stability Limit Detection                       
- * =================================================================
- */
-
 
 
 /* 

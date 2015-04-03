@@ -232,14 +232,6 @@ typedef struct CVodeMemRec {
   void *cv_eh_data;           /* data pointer passed to ehfun                 */
   FILE *cv_errfp;             /* CVODE error messages are sent to errfp       */
 
-  /*-------------------------
-    Stability Limit Detection
-    -------------------------*/
-
-  double cv_ssdat[6][4];    /* scaled data array for STALD                  */
-  int cv_nscon;               /* counter for STALD method                     */
-  long int cv_nor;            /* counter for number of order reductions       */
-
   /*----------------
     Rootfinding Data
     ----------------*/
