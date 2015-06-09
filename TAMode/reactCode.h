@@ -14,7 +14,7 @@
 #define Nspecies 55
 
 const unsigned int hetRi[3][2] = {{1, 2}, {2, 3}, {1, 3}};
-enum TAMs: int {AXL, Mer, Tyro};
+enum TAMs: int {AXL = 0, Mer = 1, Tyro = 2};
 
 struct TAMrates {
     double Binding1;   ///< Forward binding rate for Ig1

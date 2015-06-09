@@ -141,7 +141,6 @@ int AXL_react(double, N_Vector xIn, N_Vector dxdtIn, void *user_data) {
     
     dxdt_d[12] = -r->kDeg*x_d[12];
     
-    
     return 0;
 }
 
@@ -166,21 +165,21 @@ struct rates Param(double *params) {
     out.internalFrac = 0.5;
     out.internalV = 623;
     
-    out.TAMs[0].Binding1 = 1.2;
-    out.TAMs[0].Unbinding1 = 0.042;
-    out.TAMs[0].Unbinding2 = params[2];
-    out.TAMs[0].xRev4 = params[3];
-    out.TAMs[0].expression = params[4];
+    out.TAMs[AXL].Binding1 = 1.2; // From Mihalis et al
+    out.TAMs[AXL].Unbinding1 = 0.042; // From Mihalis et al
+    out.TAMs[AXL].Unbinding2 = 66666; // From Sasaki double mutant
+    out.TAMs[AXL].xRev4 = params[2];
+    out.TAMs[AXL].expression = params[3];
     
-    out.TAMs[1].Binding1 = 0.06;
-    out.TAMs[1].Unbinding1 = params[5];
-    out.TAMs[1].Unbinding2 = params[6];
-    out.TAMs[1].expression = params[7];
+    out.TAMs[Mer].Binding1 = 0.0276;
+    out.TAMs[Mer].Unbinding1 = 0.00840;
+    out.TAMs[Mer].Unbinding2 = params[4];
+    out.TAMs[Mer].expression = params[5];
     
-    out.TAMs[2].Binding1 = 0.06;
-    out.TAMs[2].Unbinding1 = params[8];
-    out.TAMs[2].Unbinding2 = params[9];
-    out.TAMs[2].expression = params[10];
+    out.TAMs[Tyro].Binding1 = 0.0324; // From Fisher et al
+    out.TAMs[Tyro].Unbinding1 = 0.00102; // From Fisher et al
+    out.TAMs[Tyro].Unbinding2 = params[6];
+    out.TAMs[Tyro].expression = params[7];
     
     // Detailed balance
     for (size_t ii = 0; ii < 3; ii++) {

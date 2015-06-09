@@ -19,7 +19,7 @@
 using namespace std;
 
 static void randomParams (double *pp) {
-    for (int ii = 0; ii < 50; ii++) {
+    for (int ii = 0; ii < 10; ii++) {
         pp[ii] = 10*(double)arc4random() / (double)RAND_MAX;
     }
 }
@@ -28,30 +28,17 @@ static void randomParams (double *pp) {
 
 
 int main() {
+    double pp[10];
     
-    double doses[] = {0, 25, 50, 100};
-    double pp[50];
-    
-    TAMout outData;
-    outData.pY = (double *) malloc(sizeof(double)*3*NELEMS(doses));
-    outData.surf = (double *) malloc(sizeof(double)*3*NELEMS(doses));
-    outData.total = (double *) malloc(sizeof(double)*3*NELEMS(doses));
-    
-    for (size_t trials = 0; trials < 100; trials++) {
+    for (size_t trials = 0; trials < 1000; trials++) {
         randomParams(pp);
-        
-        //calcSingleTAMdose (&outData, &params, 10, doses, NELEMS(doses));
         
         double error = calcLew (pp);
         
-        cout << error << endl;
-        
+        if (error < 1.4)
+            cout << error << endl;
         
     }
-    
-    free(outData.pY);
-    free(outData.surf);
-    free(outData.total);
     
     return 0;
 }

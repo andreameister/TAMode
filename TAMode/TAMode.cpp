@@ -233,7 +233,7 @@ extern "C" double calcLew (double *inP) {
         free(outData.pY);
         free(outData.total);
         free(outData.surf);
-        return -1;
+        return 1E6;
     }
     
     double error = 0;
