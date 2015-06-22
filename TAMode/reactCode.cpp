@@ -155,7 +155,7 @@ int AXL_react(double, N_Vector xIn, N_Vector dxdtIn, void *user_data) {
 struct rates Param(double *params) {
     struct rates out;
     
-    if (std::min_element(params,params+3) < 0) {
+    if (std::min_element(params,params+6) < 0) {
         throw std::invalid_argument(std::string("Parameter outside the physical range."));
     }
     
@@ -178,14 +178,14 @@ struct rates Param(double *params) {
     out.TAMs[AXL].xRev4 = params[1];
     out.TAMs[AXL].expression = params[2];
     
-    out.TAMs[Mer].Binding1 = params[3];
-    out.TAMs[Mer].Unbinding1 = params[4];
-    out.TAMs[Mer].Unbinding2 = params[5];
+    out.TAMs[Mer].Binding1 = 0.06;
+    out.TAMs[Mer].Unbinding1 = params[3];
+    out.TAMs[Mer].Unbinding2 = params[4];
     out.TAMs[Mer].expression = 100;
     
-    out.TAMs[Tyro].Binding1 = params[6];
-    out.TAMs[Tyro].Unbinding1 = params[7];
-    out.TAMs[Tyro].Unbinding2 = params[8];
+    out.TAMs[Tyro].Binding1 = 0.06;
+    out.TAMs[Tyro].Unbinding1 = params[5];
+    out.TAMs[Tyro].Unbinding2 = params[6];
     out.TAMs[Tyro].expression = 100;
     
     // Detailed balance

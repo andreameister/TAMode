@@ -22,8 +22,8 @@ using namespace std;
 atomic<double> maxVal;
 
 
-const double lower[9] = {-10, -5, 0, -5, -5, -5, -5, -5, -5};
-const double upper[9] = {5,    5, 5,  5,  5, 5, 5, 5, 5};
+const double lower[7] = {-10, -5, 0, -5, -5, -5, -5};
+const double upper[7] = {5,    5, 5,  5,  5,  5,  5};
 
 double sample_likelihood ( int, double zp[] ) {
     double zpL[NELEMS(lower)];
