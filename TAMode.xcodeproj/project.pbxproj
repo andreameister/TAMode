@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7203D1F91B363EF100646C24 /* AXLode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DDC0C31B349167004B4765 /* AXLode.cpp */; };
+		7203D1FA1B363F0500646C24 /* errorFuncs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DDC0C71B3493AC004B4765 /* errorFuncs.cpp */; };
 		72329B4D1A940FA30083EA8F /* TAModeTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 72329B4C1A940FA30083EA8F /* TAModeTest.mm */; };
 		72361BC31A90F4DB000CA293 /* TAMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BC21A90F4DB000CA293 /* TAMode.h */; };
 		72361BC71A90F4DB000CA293 /* TAMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BC61A90F4DB000CA293 /* TAMode.cpp */; };
@@ -29,8 +31,16 @@
 		72361BFC1A90F56D000CA293 /* cobyla.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BF41A90F56D000CA293 /* cobyla.h */; };
 		72361BFD1A90F56D000CA293 /* CVodeHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BF51A90F56D000CA293 /* CVodeHelpers.cpp */; };
 		72361BFE1A90F56D000CA293 /* CVodeHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 72361BF61A90F56D000CA293 /* CVodeHelpers.h */; };
-		729845151AB08D3E001FEFBA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 729845141AB08D3E001FEFBA /* main.cpp */; };
+		726451CE1B31AA2900536D08 /* pdflib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 726451C91B31AA2900536D08 /* pdflib.cpp */; };
+		726451CF1B31AA2900536D08 /* ranlib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 726451CB1B31AA2900536D08 /* ranlib.cpp */; };
+		726451D01B31AA2900536D08 /* rnglib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 726451CC1B31AA2900536D08 /* rnglib.cpp */; };
+		729845151AB08D3E001FEFBA /* dream_user.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 729845141AB08D3E001FEFBA /* dream_user.cpp */; };
 		729845191AB08DB9001FEFBA /* libTAMode.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72361BBF1A90F4DB000CA293 /* libTAMode.dylib */; };
+		72B460971B2F2028000E8C71 /* dream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72B460961B2F2028000E8C71 /* dream.cpp */; };
+		72DDC0C51B349167004B4765 /* AXLode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DDC0C31B349167004B4765 /* AXLode.cpp */; };
+		72DDC0C61B349167004B4765 /* AXLode.h in Headers */ = {isa = PBXBuildFile; fileRef = 72DDC0C41B349167004B4765 /* AXLode.h */; };
+		72DDC0C91B3493AC004B4765 /* errorFuncs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DDC0C71B3493AC004B4765 /* errorFuncs.cpp */; };
+		72DDC0CA1B3493AC004B4765 /* errorFuncs.h in Headers */ = {isa = PBXBuildFile; fileRef = 72DDC0C81B3493AC004B4765 /* errorFuncs.h */; };
 		72E5BEA91AAC7D36004D77C6 /* TAMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72361BC61A90F4DB000CA293 /* TAMode.cpp */; };
 		72E5BEAC1AAC84AF004D77C6 /* reactCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72E5BEAA1AAC84AF004D77C6 /* reactCode.cpp */; };
 		72E5BEAD1AAC84AF004D77C6 /* reactCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72E5BEAA1AAC84AF004D77C6 /* reactCode.cpp */; };
@@ -94,8 +104,21 @@
 		72361BF41A90F56D000CA293 /* cobyla.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cobyla.h; sourceTree = "<group>"; };
 		72361BF51A90F56D000CA293 /* CVodeHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVodeHelpers.cpp; sourceTree = "<group>"; };
 		72361BF61A90F56D000CA293 /* CVodeHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVodeHelpers.h; sourceTree = "<group>"; };
+		726451C81B31AA2900536D08 /* pdflib.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pdflib.hpp; sourceTree = "<group>"; };
+		726451C91B31AA2900536D08 /* pdflib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pdflib.cpp; sourceTree = "<group>"; };
+		726451CA1B31AA2900536D08 /* ranlib.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ranlib.hpp; sourceTree = "<group>"; };
+		726451CB1B31AA2900536D08 /* ranlib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ranlib.cpp; sourceTree = "<group>"; };
+		726451CC1B31AA2900536D08 /* rnglib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rnglib.cpp; sourceTree = "<group>"; };
+		726451CD1B31AA2900536D08 /* rnglib.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = rnglib.hpp; sourceTree = "<group>"; };
 		729845121AB08D3E001FEFBA /* TAModePerf */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TAModePerf; sourceTree = BUILT_PRODUCTS_DIR; };
-		729845141AB08D3E001FEFBA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		729845141AB08D3E001FEFBA /* dream_user.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dream_user.cpp; sourceTree = "<group>"; };
+		72B460961B2F2028000E8C71 /* dream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dream.cpp; sourceTree = "<group>"; };
+		72B460981B2F2034000E8C71 /* dream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dream.h; sourceTree = "<group>"; };
+		72B460991B2F204F000E8C71 /* dream_user.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dream_user.h; sourceTree = "<group>"; };
+		72DDC0C31B349167004B4765 /* AXLode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AXLode.cpp; sourceTree = "<group>"; };
+		72DDC0C41B349167004B4765 /* AXLode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXLode.h; sourceTree = "<group>"; };
+		72DDC0C71B3493AC004B4765 /* errorFuncs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = errorFuncs.cpp; sourceTree = "<group>"; };
+		72DDC0C81B3493AC004B4765 /* errorFuncs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = errorFuncs.h; sourceTree = "<group>"; };
 		72E5BEAA1AAC84AF004D77C6 /* reactCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = reactCode.cpp; sourceTree = "<group>"; };
 		72E5BEAB1AAC84AF004D77C6 /* reactCode.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = reactCode.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -162,8 +185,12 @@
 				72361C011A90F578000CA293 /* Libs */,
 				72361BC21A90F4DB000CA293 /* TAMode.h */,
 				72361BC61A90F4DB000CA293 /* TAMode.cpp */,
+				72DDC0C71B3493AC004B4765 /* errorFuncs.cpp */,
+				72DDC0C81B3493AC004B4765 /* errorFuncs.h */,
 				72E5BEAA1AAC84AF004D77C6 /* reactCode.cpp */,
 				72E5BEAB1AAC84AF004D77C6 /* reactCode.h */,
+				72DDC0C31B349167004B4765 /* AXLode.cpp */,
+				72DDC0C41B349167004B4765 /* AXLode.h */,
 			);
 			path = TAMode;
 			sourceTree = "<group>";
@@ -197,7 +224,16 @@
 		729845131AB08D3E001FEFBA /* TAModePerf */ = {
 			isa = PBXGroup;
 			children = (
-				729845141AB08D3E001FEFBA /* main.cpp */,
+				726451C81B31AA2900536D08 /* pdflib.hpp */,
+				726451C91B31AA2900536D08 /* pdflib.cpp */,
+				726451CA1B31AA2900536D08 /* ranlib.hpp */,
+				726451CB1B31AA2900536D08 /* ranlib.cpp */,
+				726451CC1B31AA2900536D08 /* rnglib.cpp */,
+				726451CD1B31AA2900536D08 /* rnglib.hpp */,
+				72B460981B2F2034000E8C71 /* dream.h */,
+				72B460991B2F204F000E8C71 /* dream_user.h */,
+				72B460961B2F2028000E8C71 /* dream.cpp */,
+				729845141AB08D3E001FEFBA /* dream_user.cpp */,
 			);
 			path = TAModePerf;
 			sourceTree = "<group>";
@@ -210,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				72361BFC1A90F56D000CA293 /* cobyla.h in Headers */,
+				72DDC0C61B349167004B4765 /* AXLode.h in Headers */,
 				72361BED1A90F552000CA293 /* sundials_direct.h in Headers */,
 				72361BFE1A90F56D000CA293 /* CVodeHelpers.h in Headers */,
 				72E5BEAE1AAC84AF004D77C6 /* reactCode.h in Headers */,
@@ -219,6 +256,7 @@
 				72361BC31A90F4DB000CA293 /* TAMode.h in Headers */,
 				72361BEF1A90F552000CA293 /* sundials_nvector.h in Headers */,
 				72361BDA1A90F541000CA293 /* cvode_direct.h in Headers */,
+				72DDC0CA1B3493AC004B4765 /* errorFuncs.h in Headers */,
 				72361BDB1A90F541000CA293 /* cvode_impl.h in Headers */,
 				72361BE91A90F552000CA293 /* nvector_serial.h in Headers */,
 			);
@@ -332,6 +370,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7203D1FA1B363F0500646C24 /* errorFuncs.cpp in Sources */,
+				7203D1F91B363EF100646C24 /* AXLode.cpp in Sources */,
 				72E5BEAD1AAC84AF004D77C6 /* reactCode.cpp in Sources */,
 				72F6CDE71A943692001DAA80 /* sundials_direct.c in Sources */,
 				72F6CDE81A943692001DAA80 /* sundials_nvector.c in Sources */,
@@ -355,10 +395,12 @@
 				72361BFD1A90F56D000CA293 /* CVodeHelpers.cpp in Sources */,
 				72361BC71A90F4DB000CA293 /* TAMode.cpp in Sources */,
 				72361BEE1A90F552000CA293 /* sundials_nvector.c in Sources */,
+				72DDC0C91B3493AC004B4765 /* errorFuncs.cpp in Sources */,
 				72E5BEAC1AAC84AF004D77C6 /* reactCode.cpp in Sources */,
 				72361BDD1A90F541000CA293 /* cvode.c in Sources */,
 				72361BFB1A90F56D000CA293 /* cobyla.c in Sources */,
 				72361BE81A90F552000CA293 /* nvector_serial.c in Sources */,
+				72DDC0C51B349167004B4765 /* AXLode.cpp in Sources */,
 				72361BD61A90F541000CA293 /* cvode_dense.c in Sources */,
 				72361BDC1A90F541000CA293 /* cvode_io.c in Sources */,
 				72361BEC1A90F552000CA293 /* sundials_direct.c in Sources */,
@@ -369,7 +411,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				729845151AB08D3E001FEFBA /* main.cpp in Sources */,
+				729845151AB08D3E001FEFBA /* dream_user.cpp in Sources */,
+				72B460971B2F2028000E8C71 /* dream.cpp in Sources */,
+				726451D01B31AA2900536D08 /* rnglib.cpp in Sources */,
+				726451CE1B31AA2900536D08 /* pdflib.cpp in Sources */,
+				726451CF1B31AA2900536D08 /* ranlib.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,12 +631,15 @@
 		729845161AB08D3E001FEFBA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -599,8 +648,11 @@
 		729845171AB08D3E001FEFBA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
