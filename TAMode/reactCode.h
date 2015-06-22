@@ -54,6 +54,10 @@ struct hetRates {
     double xRev13;
     double xFwd14;
     double xRev14;
+    double xFwd15;
+    double xRev15;
+    double xFwd16;
+    double xRev16;
 };
 
 struct rates {

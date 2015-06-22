@@ -15,6 +15,10 @@
 #include <fstream>
 #include "CVodeHelpers.h"
 #include "reactCode.h"
+#include "AXLode.h"
+#include <iostream>
+#include <iterator>
+#include <algorithm>
 
 using namespace std;
 
@@ -138,10 +142,9 @@ int calcSingleTAMdose (TAMout *outData, struct rates *params, double tp, double 
             if (jj != recp) inP.TAMs[jj].expression = 0;
         }
         
-        try {
-            cvode_mem = initState(init, &inP);
-        } catch (exception &e) {
-            CVodeFree(&cvode_mem);
+        
+        cvode_mem = initState(init, &inP);
+        if (cvode_mem == NULL) {
             N_VDestroy_Serial(init);
             N_VDestroy_Serial(state);
             return -1;
@@ -198,22 +201,33 @@ int calcSingleTAMdose (TAMout *outData, struct rates *params, double tp, double 
     return 0;
 }
 
+//mutex mtx;
+
 static double LewError (double *in1, double *in2, unsigned int len) {
-    vector<double> temp1(in1, in1+len);
-    vector<double> temp2(in2, in2+len);
+    double error = 0;
     
-    const double mag1 = accumulate(temp1.begin(), temp1.end(), (double) 0.0);
-    const double mag2 = accumulate(temp2.begin(), temp2.end(), (double) 0.0);
+    const double mag = accumulate(in1, in1+len, (double) 0.0) / accumulate(in2, in2+len, (double) 0.0);
+    
+    //mtx.lock();
     
     for (unsigned int ii = 0; ii < len; ii++) {
-        temp1[ii] = fabs((temp1[ii] / mag1) - (temp2[ii] / mag2));
+        //cout << in2[ii] * mag << " ";
+        
+        error += pow(in1[ii] - (in2[ii] * mag),2);
     }
     
-    return accumulate(temp1.begin(), temp1.end(), (double) 0.0);
+    //cout << ":   " << error << endl;
+    
+    //mtx.unlock();
+    
+    return error;
 }
 
 extern "C" double calcLew (double *inP) {
     struct rates params = Param(inP);
+    struct rates paramAXL = params;
+    paramAXL.TAMs[Mer].expression = 0;
+    paramAXL.TAMs[Tyro].expression = 0;
     
     TAMout outData;
     
@@ -224,7 +238,7 @@ extern "C" double calcLew (double *inP) {
     double doses[] = {0, 25, 50, 100, 200, 300};
     
     double TyroPY[] = {1, 1.5, 2.0, 5, 10, 10};
-    double AxlPY[] = {1, 1, 1, 1, 1, 1};
+    //double AxlPY[] = {1, 1, 1, 1, 1, 1};
     double MerPY[] = {0, 1, 3, 5, 10, 10};
     
     int flag = calcSingleTAMdose (&outData, &params, 10, doses, NELEMS(doses));
@@ -238,9 +252,10 @@ extern "C" double calcLew (double *inP) {
     
     double error = 0;
     
-    error += LewError(AxlPY, &outData.pY[0], NELEMS(doses));
+    //error += 10*LewError(AxlPY, &outData.pY[0], NELEMS(doses));
     error += LewError(MerPY, &outData.pY[NELEMS(doses)], NELEMS(doses));
     error += LewError(TyroPY, &outData.pY[2*NELEMS(doses)], NELEMS(doses));
+    error += calcErrorA549(paramAXL);
     
     free(outData.pY);
     free(outData.total);

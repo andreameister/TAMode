@@ -110,7 +110,7 @@ void* solver_setup (N_Vector init, void *params, double abstolIn, double reltolI
         throw runtime_error(string("Error calling CVodeSetUserData in solver_setup."));
     }
 
-    CVodeSetMaxNumSteps(cvode_mem, 5000);
+    CVodeSetMaxNumSteps(cvode_mem, 20000);
     
     return cvode_mem;
 }
@@ -120,7 +120,7 @@ void solverReset (void *cvode_mem, N_Vector init) {
 }
 
 void* solver_setup (N_Vector init, void *params, CVRhsFn f) {
-    return solver_setup (init, params, 1E-4, 1E-6, f);
+    return solver_setup (init, params, 1E-5, 1E-6, f);
 }
 
 

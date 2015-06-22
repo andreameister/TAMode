@@ -12,7 +12,9 @@
 #include "nvector_serial.h"  /* serial N_Vector types, fcts., macros */
 #include "cvode.h"
 #include "cvode_direct.h"
-
+#include <exception>
+#include <string>
+#include <iostream>
 
 #define print_CV_err 0
 
