@@ -8,7 +8,7 @@
 # include <cstring>
 #include <vector>
 #include <stack>
-#include <future>
+#include <signal.h>
 
 using namespace std;
 
@@ -19,10 +19,17 @@ using namespace std;
 # include "dream_user.h"
 # include "pdflib.hpp"
 
+void intHandler(int);
+
+static volatile int keepRunning = 1;
+
+void intHandler(int) {
+    keepRunning = 0;
+}
+
 //****************************************************************************80
 
 int main ( )
-
 //****************************************************************************80
 //
 //  Purpose:
@@ -148,6 +155,7 @@ int main ( )
   double *z;
 
   timestamp ( );
+    signal(SIGINT, intHandler);
 
   cout << "\n";
   cout << "DREAM\n";
@@ -1087,7 +1095,6 @@ void dream_step (const int cr_num, double *cr_prob, const int chain_index, int *
 
 
 
-
 void dream_algm ( const int chain_num, int cr_num, double fit[], int gen_num,
                  double gr[], int &gr_conv, int &gr_count, int gr_num, double gr_threshold,
                  double jumprate_table[], int jumpstep, double limits[], int pair_num,
@@ -1229,7 +1236,7 @@ void dream_algm ( const int chain_num, int cr_num, double fit[], int gen_num,
     
     cr_init ( cr, cr_dis, cr_num, cr_prob, cr_ups );
     
-    for ( gen_index = 1; gen_index < gen_num; gen_index++ ) {
+    for ( gen_index = 1; (gen_index < gen_num) && keepRunning; gen_index++ ) {
         for ( chain_index = 0; chain_index < chain_num; chain_index++ ) {
             //dream_step (cr_num, cr_prob, chain_index, &cr_index, chain_num, gen_index, cr, jumprate_table, limits, jumpstep, par_num, pair_num, z, &zp_count, zp_old, fit, gen_num, &zp_accept, cr_dis, cr_ups, gr_conv);
             
@@ -1243,12 +1250,9 @@ void dream_algm ( const int chain_num, int cr_num, double fit[], int gen_num,
         //
         //  Update the multinomial distribution of CR.
         //
-        if ( ! gr_conv )
-        {
-            if ( 1 < cr_num )
-            {
-                if ( ( gen_index + 1 ) % 10 == 0 )
-                {
+        if ( ! gr_conv ) {
+            if ( 1 < cr_num ) {
+                if ( ( gen_index + 1 ) % 10 == 0 ) {
                     cr_prob_update ( cr_dis, cr_num, cr_prob, cr_ups );
                 }
             }
@@ -1258,18 +1262,15 @@ void dream_algm ( const int chain_num, int cr_num, double fit[], int gen_num,
         //  * compute the Gelman Rubin R statistic for this generation,
         //    and determine if convergence has occurred.
         //
-        if ( ( gen_index + 1 ) % printstep == 0 )
-        {
+        if ( ( gen_index + 1 ) % printstep == 0 ) {
             gr_compute ( chain_num, gen_index, gen_num, gr, gr_conv, gr_count, 
                         gr_num, gr_threshold, par_num, z );
         }
         //
         //  Check for outlier chains.
         //
-        if ( ! gr_conv )
-        {
-            if ( ( gen_index + 1 ) % 10 == 0 )
-            {
+        if ( ! gr_conv ) {
+            if ( ( gen_index + 1 ) % 10 == 0 ) {
                 chain_outliers ( chain_num, gen_index, gen_num, par_num, fit, z );
             }
         }
